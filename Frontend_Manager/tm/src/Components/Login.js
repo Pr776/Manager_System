@@ -6,6 +6,7 @@ class Login extends Component {
     this.state = {
       username: "",
       password: "",
+      errorMessage: "",
       isLoggedIn: false,
     };
   }
@@ -21,17 +22,23 @@ class Login extends Component {
     if (this.state.username === "user" && this.state.password === "password") {
       this.setState({ isLoggedIn: true });
     } else {
-      alert("Invalid username or password");
+      this.setState({ errorMessage: "Invalid username or password" });
     }
   };
 
   render() {
+    const { errorMessage } = this.state;
     if (this.state.isLoggedIn) {
       return <p>Welcome, {this.state.username}!</p>;
     } else {
       return (
         <form onSubmit={this.handleSubmit}>
-          <img src="https://www.ldtech.in/images/logo.png" alt="Error" className="company-logo" style={{marginBottom: "20px"}} />
+          <img
+            src="https://www.ldtech.in/images/logo.png"
+            alt="Error"
+            className="company-logo"
+            style={{ marginBottom: "20px" }}
+          />
           <label>Username:</label>
           <input
             type="text"
@@ -39,6 +46,7 @@ class Login extends Component {
             value={this.state.username}
             onChange={this.handleInputChange}
           />
+          {errorMessage && <p style={{ color: "red" ,fontSize: "12px"}}>{errorMessage}</p>}
           <label>Password:</label>
           <input
             type="password"
