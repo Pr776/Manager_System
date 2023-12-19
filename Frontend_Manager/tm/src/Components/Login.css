@@ -1,6 +1,6 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    font-family: oswald, sans-serif;
+    background-color: #29c7ee;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -9,6 +9,7 @@ body {
     justify-content: center;
   }
   form {
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
     max-width: 300px;
     padding: 20px;
     background: #ffffff;
@@ -22,6 +23,7 @@ body {
   input[type="text"],
   input[type="password"],
   input[type="submit"] {
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     width: 100%;
     padding: 10px;
     margin-bottom: 10px;
@@ -29,7 +31,7 @@ body {
     box-sizing: border-box;
   }
   input[type="submit"] {
-    background-color: hsl(0, 0%, 0%);
+    background-color: #29c7ee;
     color: white;
     cursor: pointer;
   }
