@@ -2,20 +2,22 @@ body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
     height: 100vh;
     margin: 0;
+    justify-content: center;
   }
   form {
     max-width: 300px;
     padding: 20px;
-    background: #fff;
+    background: #ffffff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
   }
   label {
     margin-bottom: 5px;
-    display: inline-block;
+    display: block;
   }
   input[type="text"],
   input[type="password"],
@@ -27,7 +29,7 @@ body {
     box-sizing: border-box;
   }
   input[type="submit"] {
-    background-color: #4CAF50;
+    background-color: hsl(122, 41%, 50%);
     color: white;
     cursor: pointer;
   }
