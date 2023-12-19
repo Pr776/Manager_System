@@ -29,7 +29,7 @@ body {
     box-sizing: border-box;
   }
   input[type="submit"] {
-    background-color: hsl(122, 41%, 50%);
+    background-color: hsl(0, 0%, 0%);
     color: white;
     cursor: pointer;
   }
