@@ -46,7 +46,9 @@ class Login extends Component {
             value={this.state.username}
             onChange={this.handleInputChange}
           />
-          {errorMessage && <p style={{ color: "red" ,fontSize: "12px"}}>{errorMessage}</p>}
+          {errorMessage && (
+            <p style={{ color: "red", fontSize: "12px" }}>{errorMessage}</p>
+          )}
           <label>Password:</label>
           <input
             type="password"
