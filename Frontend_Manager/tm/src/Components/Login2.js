@@ -34,6 +34,7 @@ export class Login2 extends Component {
     } else {
       return (
         <form class="login-form" onSubmit={this.handleSubmit}>
+          <img src="https://www.ldtech.in/images/logo.png"></img>
           <div className="flex-row">
             <label className="lf--label" for="username">
               <svg x="0px" y="0px" width="12px" height="13px">
@@ -80,6 +81,9 @@ export class Login2 extends Component {
           {/* <a className="lf--forgot" href="#">
             Forgot password?
           </a> */}
+           {errorMessage && (
+            <p style={{ color: "red", fontSize: "12px" }}>{errorMessage}</p>
+          )}
         </form>
       );
     }
