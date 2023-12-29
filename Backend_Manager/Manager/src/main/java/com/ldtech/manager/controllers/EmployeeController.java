@@ -85,4 +85,11 @@ public class EmployeeController {
         return ResponseEntity.ok(employees);
     }
 
+    // Manager Dashboard api
+    @GetMapping("/dashboard")
+    public ResponseEntity<List<Employee>> getManagerDashboard(){
+        List<Employee> employeeList = employeeService.getDashboard();
+        return ResponseEntity.ok(employeeList);
+    }
+
 }

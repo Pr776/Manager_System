@@ -3,6 +3,7 @@ package com.ldtech.manager.repositories;
 import com.ldtech.manager.entities.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
@@ -14,4 +15,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     List<Employee> findByTimesheetClient(String client);
 
     List<Employee> findByTimesheetDepartment(String department);
+
+    List<Employee> findEmployeesByTimesheetEntryDateAndTimesheetStatus(LocalDate entryDate, String pending);
 }

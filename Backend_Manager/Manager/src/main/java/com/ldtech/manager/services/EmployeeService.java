@@ -17,4 +17,8 @@ public interface EmployeeService {
     Employee saveEmployee(Employee employee);
 
     List<Employee> getAllEmployees();
+
+
+    // Manager dashboard with curent week data and status pending
+    List<Employee> getDashboard();
 }

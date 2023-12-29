@@ -10,6 +10,7 @@ import com.ldtech.manager.repositories.WeekRepository;
 import com.ldtech.manager.services.EmployeeService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -90,5 +91,19 @@ public class EmployeeServiceImpl implements EmployeeService {
     public List<Employee> getAllEmployees() {
         List<Employee> allEmployees = employeeRepository.findAll();
         return allEmployees;
+    }
+
+    @Override
+    public List<Employee> getDashboard() {
+        LocalDate entryDate = LocalDate.now();
+
+        List<Employee> employees = employeeRepository.findEmployeesByTimesheetEntryDateAndTimesheetStatus(entryDate, "Pending");
+
+        for(Employee employee : employees){
+            Timesheet timesheet = timesheetRepository.findById(employee.getTimesheet().getTimesheetId()).orElse(null);
+
+            employee.setTimesheet(timesheet);
+        }
+        return employees;
     }
 }
