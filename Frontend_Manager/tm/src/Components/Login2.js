@@ -78,9 +78,9 @@ export class Login2 extends Component {
             />
           </div>
           <input className="lf--submit" type="submit" value="LOGIN" />
-          {/* <a className="lf--forgot" href="#">
+          <a className="lf--forgot" href="#">
             Forgot password?
-          </a> */}
+          </a>
            {errorMessage && (
             <p style={{ color: "red", fontSize: "12px" }}>{errorMessage}</p>
           )}
