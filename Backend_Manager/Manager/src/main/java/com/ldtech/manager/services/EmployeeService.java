@@ -6,7 +6,8 @@ import java.util.List;
 
 public interface EmployeeService {
 
-    Employee searchByEmployeeId(long empId);
+    Employee searchById(long id);
+    Employee searchByEmployeeId(String empId);
     Employee searchByEmployeeName(String empName);
     List<Employee> searchByStatus(String status);
     List<Employee> searchByClient(String client);
@@ -21,4 +22,6 @@ public interface EmployeeService {
 
     // Manager dashboard with curent week data and status pending
     List<Employee> getDashboard();
+
+
 }

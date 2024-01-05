@@ -43,9 +43,17 @@ public class EmployeeController {
         return ResponseEntity.status(HttpStatus.CREATED).body(employee1);
     }
 
+
     // get employee by id
-    @GetMapping("/{empId}")
-    public ResponseEntity<Employee> searchByEmpId(@PathVariable("empId") long empId){
+    @GetMapping("/{id}")
+    public ResponseEntity<Employee> searchById(@PathVariable("id") long id){
+        Employee employee = employeeService.searchById(id);
+        return ResponseEntity.ok(employee);
+    }
+
+    // get employee by empId
+    @GetMapping("/empId/{empId}")
+    public ResponseEntity<Employee> searchByEmpId(@PathVariable("empId") String empId){
         Employee employee = employeeService.searchByEmployeeId(empId);
         return ResponseEntity.ok(employee);
     }

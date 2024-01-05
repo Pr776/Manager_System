@@ -11,6 +11,7 @@ import com.ldtech.manager.services.EmployeeService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -27,8 +28,14 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Employee searchByEmployeeId(long empId) {
-        Employee employee = employeeRepository.findById(empId).orElseThrow(() -> new ResourceNotFoundException("Employee", "empId", empId));
+    public Employee searchById(long id) {
+        Employee employee = employeeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Employee", "id", id));
+        return employee;
+    }
+
+    @Override
+    public Employee searchByEmployeeId(String empId) {
+        Employee employee = employeeRepository.findByEmpId(empId);
         return employee;
     }
 
@@ -93,13 +100,24 @@ public class EmployeeServiceImpl implements EmployeeService {
         return allEmployees;
     }
 
+
+    // Dashboard is not complete
     @Override
     public List<Employee> getDashboard() {
-        LocalDate entryDate = LocalDate.now();
+//        LocalDate entryDate = LocalDate.now();
 
-        List<Employee> employees = employeeRepository.findEmployeesByTimesheetEntryDateAndTimesheetStatus(entryDate, "Pending");
+        Week week = new Week(1L, LocalDate.of(2024, 01, 01), LocalDate.of(2024, 01, 05));
 
-        for(Employee employee : employees){
+
+//        List<Employee> employees = employeeRepository.findEmployeesByTimesheetEntryDateAndTimesheetStatus(entryDate, "Pending");
+//        List<Employee> employees = employeeRepository.findEmployeesByWeekAndTimesheetStatus(week, "Pending");
+        List<Employee> employees = new ArrayList<>();
+
+//        for (LocalDate date : week){
+//
+//        }
+//
+        for (Employee employee : employees){
             Timesheet timesheet = timesheetRepository.findById(employee.getTimesheet().getTimesheetId()).orElse(null);
 
             employee.setTimesheet(timesheet);
