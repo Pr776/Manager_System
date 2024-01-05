@@ -4,6 +4,7 @@ $green-dark: #000000;
 $green-light: #000000;
 $gray: #8f8f8f;
 $gray-light: #f5f6f8;
+$red: red;
 
 * {
   -webkit-font-smoothing: antialiased;
@@ -123,8 +124,8 @@ body {
 
 .lf--forgot {
   margin-top: 1em;
-  color: $green-light;
-  font-size: 0.65em;
+  color: $red;
+  font-size: 0.50em;
   text-align: center;
   position: relative;
 }
