@@ -20,4 +20,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     List<Employee> findByTimesheetDepartment(String department);
 
     List<Employee> findEmployeesByWeekAndTimesheetStatus(Week week, String pending);
+
+    List<Employee> findEmployeesByWeek(Week week);
 }
