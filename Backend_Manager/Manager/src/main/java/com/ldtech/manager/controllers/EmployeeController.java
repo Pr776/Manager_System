@@ -1,5 +1,6 @@
 package com.ldtech.manager.controllers;
 
+import com.ldtech.manager.dtos.EmployeeDto;
 import com.ldtech.manager.entities.Employee;
 import com.ldtech.manager.entities.Timesheet;
 import com.ldtech.manager.entities.Week;
@@ -28,67 +29,77 @@ public class EmployeeController {
 
     // CREATE METHOD FOR DEMO PURPOSE
     @PostMapping
-    public ResponseEntity<Employee> createEmployee(@RequestBody Employee employee){
+    public ResponseEntity<EmployeeDto> createEmployee(@RequestBody EmployeeDto employeeDto){
         // Save the Week entity first to ensure it has an ID generated
-        Week week = employee.getWeek();
+        Week week = employeeDto.getWeek();
         Week week1 = weekService.saveWeek(week);
 
-        Timesheet timesheet = employee.getTimesheet();
+        Timesheet timesheet = employeeDto.getTimesheet();
         Timesheet timesheet1 = timesheetService.saveTimesheet(timesheet);
 
-        employee.setTimesheet(timesheet1);
-        employee.setWeek(week1);
-        Employee employee1 = employeeService.saveEmployee(employee);
+        employeeDto.setTimesheet(timesheet1);
+        employeeDto.setWeek(week1);
+        EmployeeDto employeeDto1 = employeeService.saveEmployee(employeeDto);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(employee1);
-    }
-
-    // get employee by id
-    @GetMapping("/{empId}")
-    public ResponseEntity<Employee> searchByEmpId(@PathVariable("empId") long empId){
-        Employee employee = employeeService.searchByEmployeeId(empId);
-        return ResponseEntity.ok(employee);
-    }
-
-    // get employee by name
-    @GetMapping("/name/{empName}")
-    public ResponseEntity<Employee> searchByEmployeeName(@PathVariable String empName){
-        Employee employee = employeeService.searchByEmployeeName(empName);
-        return ResponseEntity.ok(employee);
+        return ResponseEntity.status(HttpStatus.CREATED).body(employeeDto1);
     }
 
     // get all employees
     @GetMapping()
-    public ResponseEntity<List<Employee>> getAllEmployess(){
-        List<Employee> allEmployees = employeeService.getAllEmployees();
+    public ResponseEntity<List<EmployeeDto>> getAllEmployess(){
+        List<EmployeeDto> allEmployees = employeeService.getAllEmployees();
         return ResponseEntity.ok(allEmployees);
     }
 
+
+    // get employee by id
+    @GetMapping("/{id}")
+    public ResponseEntity<EmployeeDto> searchById(@PathVariable("id") long id){
+        EmployeeDto employeeDto = employeeService.searchById(id);
+        return ResponseEntity.ok(employeeDto);
+    }
+
+    // get employee by empId
+    @GetMapping("/empId/{empId}")
+    public ResponseEntity<EmployeeDto> searchByEmpId(@PathVariable("empId") String empId){
+        EmployeeDto employeeDto = employeeService.searchByEmployeeId(empId);
+        return ResponseEntity.ok(employeeDto);
+    }
+
+    // get employee by name
+    @GetMapping("/name/{empName}")
+    public ResponseEntity<EmployeeDto> searchByEmployeeName(@PathVariable String empName){
+        EmployeeDto employee = employeeService.searchByEmployeeName(empName);
+        return ResponseEntity.ok(employee);
+    }
+
+
+
 //     get employees by status
     @GetMapping("/status/{status}")
-    public ResponseEntity<List<Employee>> searchByStatus(@PathVariable String status){
-        List<Employee> employees = employeeService.searchByStatus(status);
+    public ResponseEntity<List<EmployeeDto>> searchByStatus(@PathVariable String status){
+        List<EmployeeDto> employees = employeeService.searchByStatus(status);
         return ResponseEntity.ok(employees);
     }
 
     // get employees by client
     @GetMapping("/client/{client}")
-    public ResponseEntity<List<Employee>> searchByClient(@PathVariable String client){
-        List<Employee> employees = employeeService.searchByClient(client);
+    public ResponseEntity<List<EmployeeDto>> searchByClient(@PathVariable String client){
+        List<EmployeeDto> employees = employeeService.searchByClient(client);
         return ResponseEntity.ok(employees);
     }
 
     //get employees by department
     @GetMapping("/department/{department}")
-    public ResponseEntity<List<Employee>> searchByDepartment(@PathVariable String department){
-        List<Employee> employees = employeeService.searchByDepartment(department);
+    public ResponseEntity<List<EmployeeDto>> searchByDepartment(@PathVariable String department){
+        List<EmployeeDto> employees = employeeService.searchByDepartment(department);
         return ResponseEntity.ok(employees);
     }
 
     // Manager Dashboard api
     @GetMapping("/dashboard")
-    public ResponseEntity<List<Employee>> getManagerDashboard(){
-        List<Employee> employeeList = employeeService.getDashboard();
+    public ResponseEntity<List<EmployeeDto>> getManagerDashboard(){
+        List<EmployeeDto> employeeList = employeeService.getDashboard();
         return ResponseEntity.ok(employeeList);
     }
 
