@@ -2,29 +2,38 @@ package com.ldtech.manager.controllers;
 
 import com.ldtech.manager.dtos.EmployeeDto;
 import com.ldtech.manager.entities.Employee;
+import com.ldtech.manager.entities.Project;
 import com.ldtech.manager.entities.Timesheet;
 import com.ldtech.manager.entities.Week;
 import com.ldtech.manager.services.EmployeeService;
+import com.ldtech.manager.services.ProjectService;
 import com.ldtech.manager.services.TimesheetService;
 import com.ldtech.manager.services.WeekService;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @RestController
-@RequestMapping("/employees")
+@RequestMapping("/api/employee")
 public class EmployeeController {
 
     private EmployeeService employeeService;
     private WeekService weekService;
     private TimesheetService timesheetService;
+    private ProjectService projectService;
+    private ModelMapper modelMapper;
 
-    public EmployeeController(EmployeeService employeeService, WeekService weekService, TimesheetService timesheetService) {
+    public EmployeeController(EmployeeService employeeService, WeekService weekService, TimesheetService timesheetService, ProjectService projectService, ModelMapper modelMapper) {
         this.employeeService = employeeService;
         this.weekService = weekService;
         this.timesheetService = timesheetService;
+        this.projectService = projectService;
+        this.modelMapper = modelMapper;
     }
 
     // CREATE METHOD FOR DEMO PURPOSE
@@ -45,7 +54,7 @@ public class EmployeeController {
     }
 
     // get all employees
-    @GetMapping()
+    @GetMapping("/getEmployee/all")
     public ResponseEntity<List<EmployeeDto>> getAllEmployess(){
         List<EmployeeDto> allEmployees = employeeService.getAllEmployees();
         return ResponseEntity.ok(allEmployees);
@@ -101,6 +110,56 @@ public class EmployeeController {
     public ResponseEntity<List<EmployeeDto>> getManagerDashboard(){
         List<EmployeeDto> employeeList = employeeService.getDashboard();
         return ResponseEntity.ok(employeeList);
+    }
+
+    // employee-project----------------------------------------------------------------------
+
+
+//    Save a new employee (/saveEmployee)
+    @PostMapping("/createEmployee")
+    public String createEmployee(@RequestBody Employee employee){
+        employeeService.createEmployee(employee);
+        return "Employee saved!!!";
+    }
+
+//    Create a new employee and assign him/her to an existing project (/createEmployeeForProject/{projId})
+    @PostMapping("/createEmployeeForProject/{projectId}")
+    public String createEmployeeForProject(@RequestBody Employee employee, @PathVariable("projectId") long projectId){
+        Employee employee1 = employeeService.createEmployee(employee);
+        
+        // get a project
+
+        Project project = projectService.getProjectById(projectId);
+
+        // create employees list
+        List<Employee> employees = new ArrayList<>((Collection) employee1);
+
+        // assign employee to project
+        project.setEmployees(employees);
+
+        // saving project
+        Project project1 = projectService.updateProjectById(project.getProjectId(), project);
+
+        return "Employee saved!!!";
+    }
+
+//    Fetch some existing employees and assign them to an existing project (/assignEmployeeToProject/{projId})
+    @PostMapping("/assignEmployeeToProject/{employeeId}/{projectId}")
+    public String assignEmployeeToProject(@PathVariable(name = "employeeId") String employeeId, @PathVariable("projectId") long projectId){
+        // get employee
+        EmployeeDto employeeDto = employeeService.searchByEmployeeId(employeeId);
+        Employee employee = modelMapper.map(employeeDto, Employee.class);
+
+        List<Employee> employees = new ArrayList<>((Collection) employee);
+
+        // get project
+        Project project = projectService.getProjectById(projectId);
+
+        // setting project to employees and employees to project
+        project.setEmployees(employees);
+
+        return "Employee Saved!!!";
+
     }
 
 }

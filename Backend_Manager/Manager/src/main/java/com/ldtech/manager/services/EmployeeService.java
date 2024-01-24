@@ -1,6 +1,7 @@
 package com.ldtech.manager.services;
 
 import com.ldtech.manager.dtos.EmployeeDto;
+import com.ldtech.manager.entities.Employee;
 
 import java.util.List;
 
@@ -40,4 +41,5 @@ public interface EmployeeService {
     List<EmployeeDto> getDashboard();
 
 
+    Employee createEmployee(Employee employee);
 }

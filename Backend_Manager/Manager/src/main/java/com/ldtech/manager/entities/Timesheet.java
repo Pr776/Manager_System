@@ -20,14 +20,15 @@ public class Timesheet {
     private long timesheetId;
 
     private String status;
-    private String client;
 
     @Temporal(TemporalType.DATE)
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date entryDate;
 
-    private String project;
     private String department;
     private int activityHour;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    private Employee employee;
 
 }

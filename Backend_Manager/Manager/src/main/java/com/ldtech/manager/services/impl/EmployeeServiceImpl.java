@@ -79,8 +79,8 @@ public class EmployeeServiceImpl implements EmployeeService {
             for(Employee employee : employees){
                 Timesheet timesheet = timesheetRepository.findById(employee.getTimesheet().getTimesheetId()).orElse(null);
                 Week week = weekRepository.findById(employee.getWeek().getWeekId()).orElse(null);
-
-                // set the fetched timesheet and Week in the employee
+//                    weekRepository.findById(employee.getWeek().stream().map(week -> week.getWeekId());
+//                 set the fetched timesheet and Week in the employee
                 employee.setTimesheet(timesheet);
                 employee.setWeek(week);
             }
@@ -97,7 +97,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public List<EmployeeDto> searchByClient(String client) {
         List<Employee> employees = null;
         try {
-            employees = employeeRepository.findByTimesheetClient(client);
+            employees = employeeRepository.findByProjectClient(client);
 
             for(Employee employee : employees){
                 Timesheet timesheet = timesheetRepository.findById(employee.getTimesheet().getTimesheetId()).orElse(null);
@@ -128,6 +128,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                 employee.setTimesheet(timesheet);
                 employee.setWeek(week);
             }
+
         } catch (Exception e) {
             e.printStackTrace();
             throw new ResourceNotFoundException("Employees", "department", department);
@@ -160,12 +161,12 @@ public class EmployeeServiceImpl implements EmployeeService {
     public List<EmployeeDto> getDashboard() {
 //        LocalDate entryDate = LocalDate.now();
 
-        Week week = new Week(1L, LocalDate.of(2024, 01, 01), LocalDate.of(2024, 01, 05));
+//        Week week = new Week(1L, LocalDate.of(2024, 01, 01), LocalDate.of(2024, 01, 05));
 
 
 //        List<Employee> employees = employeeRepository.findEmployeesByTimesheetEntryDateAndTimesheetStatus(entryDate, "Pending");
 //        List<Employee> employees = employeeRepository.findEmployeesByWeekAndTimesheetStatus(week, "Pending");
-        employeeRepository.findEmployeesByWeek(week);
+//        employeeRepository.findEmployeesByWeek(week);
         List<Employee> employees = new ArrayList<>();
 
 //        for (LocalDate date : week){
@@ -180,5 +181,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         List<EmployeeDto> employeeDtos = employees.stream().map(employee -> modelMapper.map(employee, EmployeeDto.class)).collect(Collectors.toList());
         return employeeDtos;
+    }
+
+    @Override
+    public Employee createEmployee(Employee employee) {
+       return employeeRepository.save(employee);
+
     }
 }
