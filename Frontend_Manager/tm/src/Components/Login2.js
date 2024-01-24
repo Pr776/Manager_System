@@ -23,6 +23,7 @@ const Login2 = () => {
     e.preventDefault();
     if (state.username === "user" && state.password === "password") {
       setState({ ...state, isLoggedIn: true });
+      navigate("/dashboard");
     } else {
       setState({ ...state, errorMessage: "Invalid username or password" });
     }
