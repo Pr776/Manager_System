@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./Login2.scss";
 import { Link, useNavigate } from "react-router-dom";
+import axios from 'axios';
 
 const Login2 = () => {
   const [state, setState] = useState({
@@ -19,13 +20,34 @@ const Login2 = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   if (state.username === "user" && state.password === "password") {
+  //     setState({ ...state, isLoggedIn: true });
+  //     navigate("/dashboard");
+  //   } else {
+  //     setState({ ...state, errorMessage: "Invalid username or password" });
+  //   }
+  // };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (state.username === "user" && state.password === "password") {
+
+    try {
+      const response = await axios.post('http://localhost:3005/login', {
+        username: state.username,
+        password: state.password,
+      });
+
+      const { token } = response.data;
+
+      // Save the token in localStorage or a secure storage mechanism
+      localStorage.setItem('token', token);
+
       setState({ ...state, isLoggedIn: true });
-      navigate("/dashboard");
-    } else {
-      setState({ ...state, errorMessage: "Invalid username or password" });
+      navigate('/dashboard');
+    } catch (error) {
+      setState({ ...state, errorMessage: 'Invalid username or password' });
     }
   };
 

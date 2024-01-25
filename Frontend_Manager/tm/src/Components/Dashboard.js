@@ -319,7 +319,7 @@ const Dashboard = ({ approvedCount, rejectedCount, pendingCount }) => {
   };
   return (
     <>
-      <DashboardContent>
+      <DashboardContainer>
         <SidebarContainer>
           <LogoContainer>
             {/* Add your logo here */}
@@ -381,71 +381,71 @@ const Dashboard = ({ approvedCount, rejectedCount, pendingCount }) => {
             <StatusCount>{pendingCount}</StatusCount>
           </StatusBox>
         </StatusContainer>
-        <div
-          style={{
-            marginLeft: "250px",
-            padding: "20px",
-            boxSizing: "border-box",
-          }}
-        >
-          {/* <h1>Total Status: {approvedCount + rejectedCount + pendingCount}</h1> */}
-
-          <PieChart width={400} height={400}>
-            <Pie
-              data={data}
-              dataKey="value"
-              fontSize={18}
-              nameKey="name"
-              cx="50%"
-              cy="50%"
-              outerRadius={80}
-              fill="#8884d8"
-              label={({ name, percent }) =>
-                `${name} ${(percent * 100).toFixed(0)}%`
-              }
-            >
-              {data.map((entry, index) => (
-                <Cell
-                  key={`cell-${index}`}
-                  fill={COLORS[index % COLORS.length]}
-                />
-              ))}
-            </Pie>
-          </PieChart>
-          <div style={{ textAlign: "center", marginTop: "10px" }}>
-            <span style={{ fontSize: "18px", fontWeight: "bold" }}>
-              Approved: {approvedCount}
-            </span>
-            <span
-              style={{
-                fontSize: "18px",
-                marginLeft: "10px",
-                marginRight: "10px",
-              }}
-            >
-              |
-            </span>
-            <span style={{ fontSize: "18px", fontWeight: "bold" }}>
-              Rejected: {rejectedCount}
-            </span>
-            <span
-              style={{
-                fontSize: "18px",
-                marginLeft: "10px",
-                marginRight: "10px",
-              }}
-            >
-              |
-            </span>
-            <span style={{ fontSize: "18px", fontWeight: "bold" }}>
-              Pending: {pendingCount}
-            </span>
+        <DashboardContent>
+          <div
+            style={{
+              marginLeft: "250px",
+              padding: "20px",
+              boxSizing: "border-box",
+            }}
+          >
+            {/* <h1>Total Status: {approvedCount + rejectedCount + pendingCount}</h1> */}
+            <PieChart width={400} height={400}>
+              <Pie
+                data={data}
+                dataKey="value"
+                fontSize={18}
+                nameKey="name"
+                cx="50%"
+                cy="50%"
+                outerRadius={80}
+                fill="#8884d8"
+                label={({ name, percent }) =>
+                  `${name} ${(percent * 100).toFixed(0)}%`
+                }
+              >
+                {data.map((entry, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={COLORS[index % COLORS.length]}
+                  />
+                ))}
+              </Pie>
+            </PieChart>
+            <div style={{ textAlign: "center", marginTop: "10px" }}>
+              <span style={{ fontSize: "18px", fontWeight: "bold" }}>
+                Approved: {approvedCount}
+              </span>
+              <span
+                style={{
+                  fontSize: "18px",
+                  marginLeft: "10px",
+                  marginRight: "10px",
+                }}
+              >
+                |
+              </span>
+              <span style={{ fontSize: "18px", fontWeight: "bold" }}>
+                Rejected: {rejectedCount}
+              </span>
+              <span
+                style={{
+                  fontSize: "18px",
+                  marginLeft: "10px",
+                  marginRight: "10px",
+                }}
+              >
+                |
+              </span>
+              <span style={{ fontSize: "18px", fontWeight: "bold" }}>
+                Pending: {pendingCount}
+              </span>
+            </div>
+            <TotalStatusHeader>
+              Total Status:{approvedCount + rejectedCount + pendingCount}
+            </TotalStatusHeader>
           </div>
-          <TotalStatusHeader>
-            Total Status:{approvedCount + rejectedCount + pendingCount}
-          </TotalStatusHeader>
-        </div>
-
+        </DashboardContent>
         <div
           style={{
             position: "fixed",
@@ -460,7 +460,7 @@ const Dashboard = ({ approvedCount, rejectedCount, pendingCount }) => {
             inline
           />
         </div>
-      </DashboardContent>
+      </DashboardContainer>
     </>
   );
 };
