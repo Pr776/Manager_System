@@ -319,7 +319,7 @@ const Dashboard = ({ approvedCount, rejectedCount, pendingCount }) => {
   };
   return (
     <>
-      <DashboardContainer>
+      <DashboardContent>
         <SidebarContainer>
           <LogoContainer>
             {/* Add your logo here */}
@@ -454,13 +454,13 @@ const Dashboard = ({ approvedCount, rejectedCount, pendingCount }) => {
             zIndex: 1000,
           }}
         >
-          <DatePicker
+          <ResponsiveDatePicker
             selected={selectedDate}
             onChange={(date) => setSelectedDate(date)}
             inline
           />
         </div>
-      </DashboardContainer>
+      </DashboardContent>
     </>
   );
 };
