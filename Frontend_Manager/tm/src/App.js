@@ -9,7 +9,7 @@ import Dashboard from "./Components/Dashboard";
 function App() {
   const approvedCount = 50;
   const rejectedCount = 20;
-  const pendingCount = 15;
+  const pendingCount = 25;
   return (
     <div className="App">
       <Routes>
