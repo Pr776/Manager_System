@@ -5,6 +5,8 @@ import Login2 from "./Components/Login2";
 import ForgotPassword from "./Components/ForgotPassword";
 import { Routes, Route } from "react-router-dom";
 import Dashboard from "./Components/Dashboard";
+import History from "./Components/History";
+
 
 function App() {
   const approvedCount = 50;
@@ -25,6 +27,7 @@ function App() {
             />
           }
         />
+        <Route path = '/history' element = {<History />} />
       </Routes>
     </div>
   );
