@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Table, Button, Input, Space } from "antd";
+import { useNavigate } from "react-router-dom";
 
 const History = () => {
   const [searchType, setSearchType] = useState("");
@@ -8,6 +9,9 @@ const History = () => {
   const [toDate, setToDate] = useState(new Date());
   const [status, setStatus] = useState("");
   const [filteredData, setFilteredData] = useState([]);
+
+  const navigate = useNavigate();
+
 
   const data = [
     {
@@ -106,8 +110,13 @@ const History = () => {
   const pagination = {
     pageSize: 3, // Set the number of items per page
     // showSizeChanger: true, // Allow the user to change the page size
-    // showQuickJumper: true, // Allow the user to jump to a specific page
+    showQuickJumper: true, // Allow the user to jump to a specific page
     total: filteredData.length, // Total number of items
+  };
+
+  const handleBack = () => {
+    // Use navigate to go back to the previous page
+    navigate(-1);
   };
 
   return (
@@ -172,7 +181,9 @@ const History = () => {
         pagination={pagination}
       />
 
-      <Button style={{ marginTop: "20px" }}>Back</Button>
+      <Button style={{ marginTop: "20px" }} onClick={handleBack}>
+        Back
+      </Button>
     </div>
   );
 };
