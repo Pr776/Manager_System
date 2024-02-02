@@ -346,6 +346,8 @@ const History = () => {
           value={status}
           onChange={(e) => setStatus(e.target.value)}
           className="status-dropdown"
+          id="status"
+          name="status"
         >
           <option value="">Select Status</option>
           <option value="Approved">Approved</option>
