@@ -445,7 +445,7 @@ const Dashboard = ({ approvedCount, rejectedCount, pendingCount }) => {
               </span>
             </div>
             <TotalStatusHeader>
-              {/* Total Status:{approvedCount + rejectedCount + pendingCount} */}
+              Total Status:{approvedCount + rejectedCount + pendingCount}
             </TotalStatusHeader>
           </div>
         </DashboardContent>
