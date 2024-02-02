@@ -1,5 +1,6 @@
 import React from "react";
 import "./TimeSheet.css"; // Import your CSS file for styling
+import { blue } from "@mui/material/colors";
 
 function TimeSheet() {
   return (
@@ -49,6 +50,7 @@ function TimeSheet() {
               // border: "1px solid black",
             }}
           >
+            <div>
             <table>
               <thead>
                 <tr>
@@ -69,8 +71,8 @@ function TimeSheet() {
                 </tr>
               </tbody>
             </table>
-            <p></p>
-            <p></p>
+            </div>
+            <div>
             <table>
               <thead>
                 <tr>
@@ -104,6 +106,7 @@ function TimeSheet() {
                 </tr>
               </tbody>
             </table>
+            </div>
           </div>
         </div>
       </div>
@@ -111,9 +114,9 @@ function TimeSheet() {
         Approval Status: <input type="text" />
       </div>
       <div className="buttons">
-        <button>Approve</button>
-        <button>Reject</button>
-        <button>Pending</button>
+        <div style={{paddingRight:"10px"}}><button>Approve</button></div>
+        <div style={{paddingRight:"10px"}}> <button>Reject</button></div>
+        <div><button>Back</button></div>
       </div>
     </>
   );

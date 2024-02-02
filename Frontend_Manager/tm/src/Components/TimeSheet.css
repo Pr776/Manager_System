@@ -64,10 +64,13 @@
 
 .table-container {
   position: absolute;
+  display: flex;
+  justify-content: space-between;
   left: 0;
   padding-left: 38px;
+
   /* padding-top: 20px; */
-  /* width: 100%; */
+  width: 96%;
   /* border-collapse: collapse; */
 }
 
@@ -97,7 +100,7 @@
 
 .approval{
   position: absolute;
-  right: 0;
+  left: 85.5%;
   top: 75%;
   font-size: 15px;
 }
@@ -105,5 +108,15 @@
 .buttons{
     top: 90%;
     position: absolute;
-    display: block;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* padding-right: 10px; */
+    /* align-items: center; */
+    /* align-content: center; */
+    /* color: aqua; */
+}
+
+.buttons button{
+    background-color: aqua;
 }
