@@ -6,6 +6,7 @@ import ForgotPassword from "./Components/ForgotPassword";
 import { Routes, Route } from "react-router-dom";
 import Dashboard from "./Components/Dashboard";
 import History from "./Components/History";
+import History2 from "./Components/History2";
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
           }
         />
         <Route path = '/history' element = {<History />} />
+        <Route path = '/history2' element = {<History2 />} />
       </Routes>
     </div>
   );
