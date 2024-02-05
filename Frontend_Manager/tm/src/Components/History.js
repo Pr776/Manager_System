@@ -192,6 +192,7 @@
 import React, { useState } from "react";
 import { Table, Button, Input, Space, DatePicker } from "antd";
 import { useNavigate } from "react-router-dom";
+import './History.css';
 
 const History = () => {
   const [searchType, setSearchType] = useState("");
@@ -306,7 +307,7 @@ const History = () => {
   };
 
   const pagination = {
-    pageSize: 4,
+    pageSize: 3,
     showQuickJumper: true,
     total: filteredData.length,
   };
