@@ -4,7 +4,7 @@ import { blue } from "@mui/material/colors";
 
 function TimeSheet() {
   return (
-    <>
+    <div>
       <div className="timesheet-container">
         <img
           src="https://www.ldtech.in/images/logo.png"
@@ -12,7 +12,7 @@ function TimeSheet() {
           className="logo-ts"
         />
         <div className="header-container">
-          <p style={{ color: "red", paddingLeft: "38px", fontSize: "20px" }}>
+          <p style={{ color: "red",  fontSize: "20px" ,paddingLeft:"28px"}}>
             Employee TimeSheet Details:{" "}
           </p>
           <div className="emp-details">
@@ -118,7 +118,7 @@ function TimeSheet() {
         <div style={{paddingRight:"10px"}}> <button>Reject</button></div>
         <div><button>Back</button></div>
       </div>
-    </>
+    </div>
   );
 }
 

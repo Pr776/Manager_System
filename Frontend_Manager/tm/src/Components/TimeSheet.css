@@ -1,4 +1,6 @@
 /* TimeSheet.css */
+
+
 .timesheet-container {
     /* position: absolute; */
     /* height: 100vh; */
@@ -16,15 +18,18 @@
   width: 160px;
   margin-bottom: 10px;
   padding-top: 4px;
-  padding-left: 10px;
+  padding-left: 28px;
+  display: flex;
 }
 
 .header-container {
   position: absolute;
+  padding-right: 20px;
+  /* padding-left: 20px; */
   left: 0;
   top: 12%;
   width: 100%;
-  background-color: #f2efef;
+  /* background-color: #f2efef; */
   padding: 10px;
   /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
 }
@@ -35,6 +40,11 @@
   display: grid;
   grid-template-columns: 1fr; /* Change to a single column */
   /* grid-row-gap: 1px;  */
+  left:0;
+  position: absolute;
+  /* background-color: #f2efef; */
+  /* width: 100%; */
+
 }
 
 .date-emp {
@@ -45,6 +55,7 @@
   text-align: right;
   margin-right: 38px;
   padding-top: 94px;
+  /* background-color: #f2efef; */
 }
 
 .date {
