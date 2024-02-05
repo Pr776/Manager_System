@@ -42,4 +42,8 @@ public interface EmployeeService {
 
 
     Employee createEmployee(Employee employee);
+
+    Employee updateEmployeeByEmpId(String empId, String status, Employee employee);
+
+    Employee searchAndSaveAcitivity(String empId, Employee employee);
 }

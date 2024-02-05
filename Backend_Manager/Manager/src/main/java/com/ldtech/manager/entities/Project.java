@@ -5,8 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -23,8 +21,8 @@ public class Project {
     private String projectDescription;
     private String client;
     private String activity;
-    private LocalDateTime projectStartTime;
-    private LocalDateTime projectEndTime;
+    private Double projectStartTime;
+    private Double projectEndTime;
     private String reportingManager;
     private String remark;
 

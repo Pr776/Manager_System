@@ -188,4 +188,37 @@ public class EmployeeServiceImpl implements EmployeeService {
        return employeeRepository.save(employee);
 
     }
+
+    @Override
+    public Employee updateEmployeeByEmpId(String empId, String status, Employee employee) {
+        // getting the employee
+        Employee savedEmployee = employeeRepository.findByEmpId(empId);
+
+        // updating the employee
+        savedEmployee.setWeek(employee.getWeek());
+        savedEmployee.setTimesheet(employee.getTimesheet());
+        savedEmployee.setProject(employee.getProject());
+
+        // saving in the database
+        Employee updatedEmployee = employeeRepository.save(savedEmployee);
+
+        return updatedEmployee;
+
+    }
+
+    @Override
+    public Employee searchAndSaveAcitivity(String empId, Employee employee) {
+        // getting the employee
+        Employee employee1 = employeeRepository.findByEmpId(empId);
+
+        // setting up the employee details
+        employee1.setWeek(employee.getWeek());
+        employee1.setTimesheet(employee.getTimesheet());
+        employee1.setProject(employee.getProject());
+
+        // saving the employee
+        Employee saved = employeeRepository.save(employee1);
+
+        return saved;
+    }
 }
