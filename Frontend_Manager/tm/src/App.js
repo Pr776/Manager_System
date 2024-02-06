@@ -1,5 +1,4 @@
-import logo from "./logo.svg";
-// import "./App.css";
+
 import Login2 from "./Components/Login2";
 import ForgotPassword from "./Components/ForgotPassword";
 import { Routes, Route } from "react-router-dom";

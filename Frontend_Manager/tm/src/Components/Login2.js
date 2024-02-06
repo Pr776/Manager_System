@@ -104,7 +104,7 @@ const Login2 = () => {
           Forgot password?
         </Link>
         {state.errorMessage && (
-          <p style={{ color: "red", fontSize: "12px" }}>{state.errorMessage}</p>
+          <p style={{ color: "red", fontSize: "12px", paddingLeft: "105px", fontWeight: "bold"}}>{state.errorMessage}</p>
         )}
       </form>
     );
