@@ -36,13 +36,14 @@ function TimeSheet() {
   };
   return (
     <div>
+       <img
+            src="https://www.ldtech.in/images/logo.png"
+            alt="logo"
+            className="logo-ts"
+          />
       <div className="timesheet-container">
-        <img
-          src="https://www.ldtech.in/images/logo.png"
-          alt="logo"
-          className="logo-ts"
-        />
         <div className="header-container">
+         
           <p style={{ color: "red", fontSize: "20px", paddingLeft: "28px" }}>
             Employee TimeSheet Details:{" "}
           </p>
@@ -72,7 +73,7 @@ function TimeSheet() {
             />
           </div>
         </div>
-        <div className="middle">
+        {/* <div className="middle"> */}
           <div
             className="table-container"
             style={{
@@ -128,7 +129,12 @@ function TimeSheet() {
                       <td>{row.description}</td>
                       <td>{row.remark}</td>
                       <td>
-                        <button onClick={() => deleteRow(index)} style={{marginRight: "8px"}}>-</button>
+                        <button
+                          onClick={() => deleteRow(index)}
+                          style={{ marginRight: "8px" }}
+                        >
+                          -
+                        </button>
                         <button onClick={addRow}>+</button>
                       </td>
                     </tr>
@@ -136,7 +142,7 @@ function TimeSheet() {
                 </tbody>
               </table>
             </div>
-          </div>
+          {/* </div> */}
         </div>
       </div>
       <div className="approval">
