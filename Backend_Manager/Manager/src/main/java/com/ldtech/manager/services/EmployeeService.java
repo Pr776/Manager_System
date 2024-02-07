@@ -46,4 +46,6 @@ public interface EmployeeService {
     Employee updateEmployeeByEmpId(String empId, String status, Employee employee);
 
     Employee searchAndSaveAcitivity(String empId, Employee employee);
+
+    List<EmployeeDto> searchByEmployeeIdInTimesheet(String empId);
 }

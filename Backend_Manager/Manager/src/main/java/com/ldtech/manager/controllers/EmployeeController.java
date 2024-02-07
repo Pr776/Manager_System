@@ -175,28 +175,30 @@ public class EmployeeController {
         EmployeeDto employeeDto = employeeService.searchByEmployeeId(employeeId);
         Employee employee = modelMapper.map(employeeDto, Employee.class);
 
-        long id = employee.getId();
-        EmployeeDto employeeDto1 = employeeService.searchById(id);
-        Employee employee1 = modelMapper.map(employeeDto1, Employee.class);
-
+//        long id = employee.getId();
+//        EmployeeDto employeeDto1 = employeeService.searchById(id);
+//        Employee employee1 = modelMapper.map(employeeDto1, Employee.class);
 
         // get project
         Project project = projectService.getProjectById(projectId);
 
-//        Set<Employee> employees = new HashSet<>();
-//        employees.add(employee1);
+        // Get the existing list of projects associated with the employee
+        List<Project> projects = employee.getProjects();
+        System.out.println(projects);
 
-//        List<Employee> employees = new ArrayList<>();
-//        employees.add(employee1);
-        List<Project> projects = new ArrayList<>();
+// If projects list is null, create a new list
+        if (projects == null) {
+            projects = new ArrayList<>();
+        }
+
+        // Add the new project to the list of projects
         projects.add(project);
 
-        // assign employee to project
-//        project.setEmployees(employees);
+        // Update the employee's projects list
+        employee.setProjects(projects);
 
-        employee1.setProjects(projects);
-        employeeRepository.save(employee1);
-
+        // Save the updated employee entity
+        employeeRepository.save(employee);
 
 //        Project save = projectRepository.save(project);
 

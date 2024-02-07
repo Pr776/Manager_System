@@ -38,8 +38,8 @@ public class HistoryServiceImpl implements HistoryService {
 
         List<Employee> employeeList = new ArrayList<>();
         for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
-            Employee employee = employeeRepository.findEmployeeByEmpIdAndWeekEntryDate(empId, date);
-
+            Employee employee = employeeRepository.findByEmpIdAndWeekEntryDate(empId, date);
+            System.out.println(employee);
             employeeList.add(employee);
         }
 
@@ -53,7 +53,7 @@ public class HistoryServiceImpl implements HistoryService {
 
         List<Employee> employeeList = new ArrayList<>();
         for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
-            Employee employee = employeeRepository.findEmployeeByEmpNameAndWeekEntryDate(empName, date);
+            Employee employee = employeeRepository.findByEmpNameAndWeekEntryDate(empName, date);
 
             employeeList.add(employee);
         }
@@ -68,9 +68,9 @@ public class HistoryServiceImpl implements HistoryService {
 
         List<Employee> employeeList = new ArrayList<>();
         for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
-            Employee employee = employeeRepository.findEmployeeByTimesheetStatusAndWeekEntryDate(status, date);
+            List<Employee> employees = employeeRepository.findEmployeeByTimesheetStatusAndWeekEntryDate(status, date);
 
-            employeeList.add(employee);
+            employeeList.addAll(employees);
         }
 
         return employeeList;

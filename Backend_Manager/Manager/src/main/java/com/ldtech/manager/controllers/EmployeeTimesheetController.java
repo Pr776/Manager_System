@@ -3,11 +3,16 @@ package com.ldtech.manager.controllers;
 
 import com.ldtech.manager.dtos.EmployeeDto;
 import com.ldtech.manager.entities.Employee;
+import com.ldtech.manager.payload.EmployeetimesheetResponse;
 import com.ldtech.manager.services.EmployeeService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/employeeTimesheet")
@@ -24,12 +29,28 @@ public class EmployeeTimesheetController {
     @GetMapping("/{empId}/{status}")
     public ResponseEntity<?> employeeTimesheet(@PathVariable("empId") String empId, @PathVariable("status") String status){
         // get employees by empId
-        EmployeeDto employeeDto = employeeService.searchByEmployeeId(empId);
+       List<EmployeeDto> employeeDto = employeeService.searchByEmployeeIdInTimesheet(empId);
 
         // converting from dto to entity
-        Employee emp = modelMapper.map(employeeDto, Employee.class);
+        List<Employee> emp = employeeDto.stream()
+                .map(employeeDto1 -> modelMapper.map(employeeDto1, Employee.class))
+                .collect(Collectors.toList());
+        System.out.println(emp);
 
-        if(emp.getTimesheet().getStatus().equals(status)){
+// Filtering employees based on timesheet status
+        List<Employee> responseList = emp.stream()
+                .filter(employee -> employee.getTimesheet().getStatus().equals(status))
+                .collect(Collectors.toList());
+
+//        List<EmployeetimesheetResponse> employeetimesheetResponses;
+//        responseList.stream().map(employee ->
+//        {
+//            for (int i = 0; i < ; i++) {
+//
+//            }
+//        })
+
+        if(!responseList.isEmpty()){
             return ResponseEntity.ok(emp);
         } else{
             return ResponseEntity.badRequest().build();

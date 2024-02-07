@@ -17,9 +17,9 @@ public class HomeController {
     @Autowired
     private EmployeeService employeeService;
 
-    @GetMapping("status/approved")
+    @GetMapping("status/accepted")
     public ResponseEntity<Integer> getStatus1(){
-        List<EmployeeDto> approved = employeeService.searchByStatus("Approved");
+        List<EmployeeDto> approved = employeeService.searchByStatus("Accepted");
         int size = approved.size();
         return ResponseEntity.ok(size);
     }

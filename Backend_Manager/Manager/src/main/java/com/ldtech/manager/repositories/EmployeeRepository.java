@@ -25,11 +25,13 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
     List<Employee> findEmployeesByWeekEntryDate(LocalDate date);
 
-    Employee findEmployeeByEmpIdAndWeekEntryDate(String empId, LocalDate week_entryDate);
+    Employee findByEmpNameAndWeekEntryDate(String empName, LocalDate date);
 
-    Employee findEmployeeByEmpNameAndWeekEntryDate(String empName, LocalDate date);
-
-    Employee findEmployeeByTimesheetStatusAndWeekEntryDate(String status, LocalDate date);
+    List<Employee> findEmployeeByTimesheetStatusAndWeekEntryDate(String status, LocalDate date);
 
     List<Employee> findByProjects_Client(String client);
+
+    Employee findByEmpIdAndWeekEntryDate(String empId, LocalDate date);
+
+    List<Employee> findEmployeesByEmpId(String empId);
 }

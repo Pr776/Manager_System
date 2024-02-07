@@ -220,4 +220,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         return saved;
     }
+
+    @Override
+    public List<EmployeeDto> searchByEmployeeIdInTimesheet(String empId) {
+        List<Employee> employees = employeeRepository.findEmployeesByEmpId(empId);
+
+        List<EmployeeDto> employeeDtos = employees.stream().map(employee -> modelMapper.map(employee, EmployeeDto.class)).collect(Collectors.toList());
+        return employeeDtos;
+    }
 }
