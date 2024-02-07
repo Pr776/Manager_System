@@ -4,6 +4,8 @@ import com.ldtech.manager.entities.Timesheet;
 import com.ldtech.manager.entities.Week;
 import lombok.Data;
 
+import java.time.LocalDate;
+
 @Data
 public class EmployeeDto {
     private long id;

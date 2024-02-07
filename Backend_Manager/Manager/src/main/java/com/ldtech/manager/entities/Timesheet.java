@@ -21,14 +21,12 @@ public class Timesheet {
 
     private String status;
 
-    @Temporal(TemporalType.DATE)
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date entryDate;
+//    @Temporal(TemporalType.DATE)
+//    @JsonFormat(pattern = "yyyy-MM-dd")
+//    private Date entryDate;
 
     private String department;
     private int activityHour;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    private Employee employee;
 
 }

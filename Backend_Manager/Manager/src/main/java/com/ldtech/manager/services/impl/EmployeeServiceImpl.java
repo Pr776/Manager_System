@@ -13,7 +13,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -78,7 +77,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
             for(Employee employee : employees){
                 Timesheet timesheet = timesheetRepository.findById(employee.getTimesheet().getTimesheetId()).orElse(null);
-                Week week = weekRepository.findById(employee.getWeek().getWeekId()).orElse(null);
+                Week week = weekRepository.findById(employee.getWeek().getDateId()).orElse(null);
 //                    weekRepository.findById(employee.getWeek().stream().map(week -> week.getWeekId());
 //                 set the fetched timesheet and Week in the employee
                 employee.setTimesheet(timesheet);
@@ -97,11 +96,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     public List<EmployeeDto> searchByClient(String client) {
         List<Employee> employees = null;
         try {
-            employees = employeeRepository.findByProjectClient(client);
+            employees = employeeRepository.findByProjects_Client(client);
 
             for(Employee employee : employees){
                 Timesheet timesheet = timesheetRepository.findById(employee.getTimesheet().getTimesheetId()).orElse(null);
-                Week week = weekRepository.findById(employee.getWeek().getWeekId()).orElse(null);
+                Week week = weekRepository.findById(employee.getWeek().getDateId()).orElse(null);
 
                 employee.setTimesheet(timesheet);
                 employee.setWeek(week);
@@ -123,7 +122,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
             for (Employee employee : employees){
                 Timesheet timesheet = timesheetRepository.findById(employee.getTimesheet().getTimesheetId()).orElse(null);
-                Week week = weekRepository.findById(employee.getWeek().getWeekId()).orElse(null);
+                Week week = weekRepository.findById(employee.getWeek().getDateId()).orElse(null);
 
                 employee.setTimesheet(timesheet);
                 employee.setWeek(week);
@@ -197,7 +196,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         // updating the employee
         savedEmployee.setWeek(employee.getWeek());
         savedEmployee.setTimesheet(employee.getTimesheet());
-        savedEmployee.setProject(employee.getProject());
+        savedEmployee.setProjects(employee.getProjects());
 
         // saving in the database
         Employee updatedEmployee = employeeRepository.save(savedEmployee);
@@ -214,7 +213,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         // setting up the employee details
         employee1.setWeek(employee.getWeek());
         employee1.setTimesheet(employee.getTimesheet());
-        employee1.setProject(employee.getProject());
+        employee1.setProjects(employee.getProjects());
 
         // saving the employee
         Employee saved = employeeRepository.save(employee1);

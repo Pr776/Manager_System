@@ -14,15 +14,15 @@ public class ActivityAllocationController {
 
     @Autowired
     private EmployeeService employeeService;
-    
+
     @Autowired
     private ModelMapper modelMapper;
-    
+
     @GetMapping("/getEmployee/{empId}")
     public ResponseEntity<Employee> getEmployeeByEmpId(@PathVariable("empId") String empId){
         // getting the employee for employeeId
         EmployeeDto employeeDto = employeeService.searchByEmployeeId(empId);
-        
+
         // converting from employeeDto to employee entity
         Employee employee = modelMapper.map(employeeDto, Employee.class);
         return ResponseEntity.ok(employee);

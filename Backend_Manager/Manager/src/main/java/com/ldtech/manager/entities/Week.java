@@ -20,15 +20,19 @@ public class Week {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long weekId;
+    private Long dateId;
 
     @Temporal(TemporalType.DATE)
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate startDate;
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    private LocalDate entryDate;
 
-    @Temporal(TemporalType.DATE)
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate endDate;
+//    @Temporal(TemporalType.DATE)
+//    @JsonFormat(pattern = "yyyy-MM-dd")
+//    private LocalDate startDate;
+//
+//    @Temporal(TemporalType.DATE)
+//    @JsonFormat(pattern = "yyyy-MM-dd")
+//    private LocalDate endDate;
 
 //    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 //    @JoinTable(
@@ -36,9 +40,11 @@ public class Week {
 //            joinColumns = @JoinColumn(name = "week_id", referencedColumnName = "week_id"),
 //            inverseJoinColumns = @JoinColumn(name = "employee_id", referencedColumnName = "id")
 //    )
+
+//    @OneToMany()
 //    private List<Employee> employees;
 
-    public boolean containsDate(LocalDate date){
-        return !date.isBefore(startDate) && !date.isAfter(endDate);
-    }
+//    public boolean containsDate(LocalDate date){
+//        return !date.isBefore(startDate) && !date.isAfter(endDate);
+//    }
 }

@@ -5,11 +5,7 @@ import com.ldtech.manager.payload.HistoryRequest;
 import com.ldtech.manager.repositories.EmployeeRepository;
 import com.ldtech.manager.services.HistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -42,7 +38,7 @@ public class HistoryServiceImpl implements HistoryService {
 
         List<Employee> employeeList = new ArrayList<>();
         for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
-            Employee employee = employeeRepository.findEmployeeByEmpIdAndWeekEntryDate(date);
+            Employee employee = employeeRepository.findEmployeeByEmpIdAndWeekEntryDate(empId, date);
 
             employeeList.add(employee);
         }
