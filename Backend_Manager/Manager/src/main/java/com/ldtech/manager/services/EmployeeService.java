@@ -2,8 +2,10 @@ package com.ldtech.manager.services;
 
 import com.ldtech.manager.dtos.EmployeeDto;
 import com.ldtech.manager.entities.Employee;
+import com.ldtech.manager.entities.Project;
 
 import java.util.List;
+import java.util.Set;
 
 public interface EmployeeService {
 
@@ -48,4 +50,7 @@ public interface EmployeeService {
     Employee searchAndSaveAcitivity(String empId, Employee employee);
 
     List<EmployeeDto> searchByEmployeeIdInTimesheet(String empId);
+
+    //
+    Set<Project> getProjectsByEmployeeId(String empId);
 }

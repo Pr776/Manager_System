@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -31,12 +32,13 @@ public class Project {
     private String reportingManager;
     private String remark;
 
-//    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @JoinTable(
-//            name = "employees_project_master",
-//            joinColumns = @JoinColumn(name = "project_id", referencedColumnName = "projectId"),
-//            inverseJoinColumns = @JoinColumn(name = "employee_id", referencedColumnName = "id")
-//    )
-////    private Set<Employee> employees;
-//    private List<Employee> employees;
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "employees_project_master",
+            joinColumns = @JoinColumn(name = "project_id", referencedColumnName = "projectId"),
+            inverseJoinColumns = @JoinColumn(name = "employee_id", referencedColumnName = "id")
+    )
+    private Set<Employee> employees;
+
 }

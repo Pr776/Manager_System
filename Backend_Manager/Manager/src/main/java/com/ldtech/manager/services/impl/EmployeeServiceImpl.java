@@ -2,6 +2,7 @@ package com.ldtech.manager.services.impl;
 
 import com.ldtech.manager.dtos.EmployeeDto;
 import com.ldtech.manager.entities.Employee;
+import com.ldtech.manager.entities.Project;
 import com.ldtech.manager.entities.Timesheet;
 import com.ldtech.manager.entities.Week;
 import com.ldtech.manager.exceptions.ResourceNotFoundException;
@@ -15,6 +16,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -227,5 +230,17 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         List<EmployeeDto> employeeDtos = employees.stream().map(employee -> modelMapper.map(employee, EmployeeDto.class)).collect(Collectors.toList());
         return employeeDtos;
+    }
+//---------------------------------------------------------------------------------
+    @Override
+    public Set<Project> getProjectsByEmployeeId(String empId) {
+        Employee employee = employeeRepository.findByEmpId(empId);
+        Optional<Employee> employeeOptional = employeeRepository.findById(employee.getId());
+        if (employeeOptional.isPresent()) {
+//            return employeeOptional.get().getProjects();
+            return  null;
+        } else {
+            return null;
+        }
     }
 }

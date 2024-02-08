@@ -146,23 +146,17 @@ public class EmployeeController {
         // get a project from db
         Project project = projectService.getProjectById(projectId);
 
-//        Set<Employee> employees = new HashSet<>();
-//        employees.add(employee1);
-//        List<Employee> employees = new ArrayList<>();
-//        employees.add(employee1);
+        Set<Employee> employees = project.getEmployees();
+        if(employees == null){
+            employees = new HashSet<>();
+        }
+        employees.add(employee);
 
-        List<Project> projects = new ArrayList<>();
-        projects.add(project);
+        // assign employee set to project
+        project.setEmployees(employees);
 
-
-
-        // assign employee to project
-//        project.setEmployees(employees);
-
-        employee1.setProjects(projects);
-        employeeRepository.save(employee1);
-
-//        Project save = projectRepository.save(project);
+        // save project
+        projectRepository.save(project);
 
         return "Employee Created and Assigned to Project!!!";
     }
@@ -175,49 +169,36 @@ public class EmployeeController {
         EmployeeDto employeeDto = employeeService.searchByEmployeeId(employeeId);
         Employee employee = modelMapper.map(employeeDto, Employee.class);
 
-//        long id = employee.getId();
-//        EmployeeDto employeeDto1 = employeeService.searchById(id);
-//        Employee employee1 = modelMapper.map(employeeDto1, Employee.class);
-
         // get project
         Project project = projectService.getProjectById(projectId);
 
-        // Get the existing list of projects associated with the employee
-        List<Project> projects = employee.getProjects();
-        System.out.println(projects);
-
-// If projects list is null, create a new list
-        if (projects == null) {
-            projects = new ArrayList<>();
+        Set<Employee> employees = project.getEmployees();
+        if(employees == null){
+            employees = new HashSet<>();
         }
+        employees.add(employee);
 
-        // Add the new project to the list of projects
-        projects.add(project);
+        // assign employee set to project
+        project.setEmployees(employees);
 
-        // Update the employee's projects list
-        employee.setProjects(projects);
+        // save project
+        projectRepository.save(project);
 
-        // Save the updated employee entity
-        employeeRepository.save(employee);
-
-//        Project save = projectRepository.save(project);
-
-
-        return "Existing Employee Assigned to Project!!!";
+        return "employee assigned to project";
 
     }
 
     @GetMapping("/getEmployee/{empId}")
     public EmployeeProjectResponse getEmployee(@PathVariable(name = "empId") String empId) {
+        // get employee details
 
-        // get Employee details
-        Employee byEmpId = employeeRepository.findByEmpId(empId);
+        Employee employee = employeeRepository.findByEmpId(empId);
+        long id = employee.getId();
+        List<Project> projects = projectRepository.findProjectByEmployeesId(id);
 
-        EmployeeProjectResponse employee = modelMapper.map(byEmpId, EmployeeProjectResponse.class);
-
-        employee.setProjects(byEmpId.getProjects());
-
-        return  employee;
+        EmployeeProjectResponse response = modelMapper.map(employee, EmployeeProjectResponse.class);
+        response.setProjects(projects);
+        return response;
 
     }
 

@@ -50,11 +50,12 @@ public class AuthController {
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
 //             get token form tokenProvider
-            String token = tokenProvider.generateToken(authentication);
+//            String token = tokenProvider.generateToken(authentication);
+//
+//            return ResponseEntity.ok(token);
 
-            return ResponseEntity.ok(token);
 
-//            return new ResponseEntity<>("User Signed in Successfully!!!", HttpStatus.OK);
+            return new ResponseEntity<>("User Signed in Successfully!!!", HttpStatus.OK);
         } catch (AuthenticationException e) {
             return new ResponseEntity<>("Authentication failed: " + e.getMessage(), HttpStatus.UNAUTHORIZED);
         }
