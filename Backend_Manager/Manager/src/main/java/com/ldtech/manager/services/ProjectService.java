@@ -13,4 +13,5 @@ public interface ProjectService {
     Project updateProjectById(long projectId, Project project);
     String deleteProjectById(long projectId);
 
+    void assignProjectToEmployees(long projectId, long empId);
 }

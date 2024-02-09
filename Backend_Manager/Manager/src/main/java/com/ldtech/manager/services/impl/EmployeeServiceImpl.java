@@ -2,6 +2,7 @@ package com.ldtech.manager.services.impl;
 
 import com.ldtech.manager.dtos.EmployeeDto;
 import com.ldtech.manager.entities.Employee;
+import com.ldtech.manager.entities.Project;
 import com.ldtech.manager.entities.Timesheet;
 import com.ldtech.manager.entities.Week;
 import com.ldtech.manager.exceptions.ResourceNotFoundException;
@@ -13,9 +14,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -78,7 +80,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
             for(Employee employee : employees){
                 Timesheet timesheet = timesheetRepository.findById(employee.getTimesheet().getTimesheetId()).orElse(null);
-                Week week = weekRepository.findById(employee.getWeek().getWeekId()).orElse(null);
+                Week week = weekRepository.findById(employee.getWeek().getDateId()).orElse(null);
 //                    weekRepository.findById(employee.getWeek().stream().map(week -> week.getWeekId());
 //                 set the fetched timesheet and Week in the employee
                 employee.setTimesheet(timesheet);
@@ -97,11 +99,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     public List<EmployeeDto> searchByClient(String client) {
         List<Employee> employees = null;
         try {
-            employees = employeeRepository.findByProjectClient(client);
+            employees = employeeRepository.findByProjects_Client(client);
 
             for(Employee employee : employees){
                 Timesheet timesheet = timesheetRepository.findById(employee.getTimesheet().getTimesheetId()).orElse(null);
-                Week week = weekRepository.findById(employee.getWeek().getWeekId()).orElse(null);
+                Week week = weekRepository.findById(employee.getWeek().getDateId()).orElse(null);
 
                 employee.setTimesheet(timesheet);
                 employee.setWeek(week);
@@ -123,7 +125,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
             for (Employee employee : employees){
                 Timesheet timesheet = timesheetRepository.findById(employee.getTimesheet().getTimesheetId()).orElse(null);
-                Week week = weekRepository.findById(employee.getWeek().getWeekId()).orElse(null);
+                Week week = weekRepository.findById(employee.getWeek().getDateId()).orElse(null);
 
                 employee.setTimesheet(timesheet);
                 employee.setWeek(week);
@@ -187,5 +189,58 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Employee createEmployee(Employee employee) {
        return employeeRepository.save(employee);
 
+    }
+
+    @Override
+    public Employee updateEmployeeByEmpId(String empId, String status, Employee employee) {
+        // getting the employee
+        Employee savedEmployee = employeeRepository.findByEmpId(empId);
+
+        // updating the employee
+        savedEmployee.setWeek(employee.getWeek());
+        savedEmployee.setTimesheet(employee.getTimesheet());
+        savedEmployee.setProjects(employee.getProjects());
+
+        // saving in the database
+        Employee updatedEmployee = employeeRepository.save(savedEmployee);
+
+        return updatedEmployee;
+
+    }
+
+    @Override
+    public Employee searchAndSaveAcitivity(String empId, Employee employee) {
+        // getting the employee
+        Employee employee1 = employeeRepository.findByEmpId(empId);
+
+        // setting up the employee details
+        employee1.setWeek(employee.getWeek());
+        employee1.setTimesheet(employee.getTimesheet());
+        employee1.setProjects(employee.getProjects());
+
+        // saving the employee
+        Employee saved = employeeRepository.save(employee1);
+
+        return saved;
+    }
+
+    @Override
+    public List<EmployeeDto> searchByEmployeeIdInTimesheet(String empId) {
+        List<Employee> employees = employeeRepository.findEmployeesByEmpId(empId);
+
+        List<EmployeeDto> employeeDtos = employees.stream().map(employee -> modelMapper.map(employee, EmployeeDto.class)).collect(Collectors.toList());
+        return employeeDtos;
+    }
+//---------------------------------------------------------------------------------
+    @Override
+    public Set<Project> getProjectsByEmployeeId(String empId) {
+        Employee employee = employeeRepository.findByEmpId(empId);
+        Optional<Employee> employeeOptional = employeeRepository.findById(employee.getId());
+        if (employeeOptional.isPresent()) {
+//            return employeeOptional.get().getProjects();
+            return  null;
+        } else {
+            return null;
+        }
     }
 }

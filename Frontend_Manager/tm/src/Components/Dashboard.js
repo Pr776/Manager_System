@@ -151,6 +151,9 @@ import { PieChart, Pie, Cell } from "recharts";
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+
+
+
 import {
   FaCheckCircle,
   FaTimesCircle,
@@ -186,6 +189,7 @@ const Logo = styled.img`
   width: 200px;
   height: 36px;
   margin-right: 10px;
+  padding-left: 20px;
 `;
 
 const MenuContainer = styled.ul`
@@ -286,6 +290,7 @@ const TotalStatusHeader = styled.h1`
   font-weight: bold;
   color: #333;
   margin-top: 15px;
+  padding-left: 150px;
 `;
 
 const DashboardContent = styled.div`

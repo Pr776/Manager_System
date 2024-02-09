@@ -1,0 +1,53 @@
+.history-container {
+  margin: 20px;
+  border: 1px solid #d9d9d9;
+  border-radius: 5px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.logo-container {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 20px;
+}
+
+.logo {
+  width: 100px; /* Adjust the width as needed */
+  height: auto;
+  margin-right: 10px;
+  padding-left: 20px
+}
+
+
+.button-space {
+  margin-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.input-space {
+  margin-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.date-picker {
+  margin-right: 10px;
+}
+
+.status-dropdown {
+  margin-right: 10px;
+}
+
+.search-input {
+  margin-right: 10px;
+  width: 200px;
+}
+
+.back-button {
+  margin-top: 20px;
+}

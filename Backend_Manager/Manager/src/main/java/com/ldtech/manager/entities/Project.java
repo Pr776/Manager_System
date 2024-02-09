@@ -1,5 +1,6 @@
 package com.ldtech.manager.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +8,10 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -23,16 +27,18 @@ public class Project {
     private String projectDescription;
     private String client;
     private String activity;
-    private LocalDateTime projectStartTime;
-    private LocalDateTime projectEndTime;
+    private Double projectStartTime;
+    private Double projectEndTime;
     private String reportingManager;
     private String remark;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "employees_project_master",
             joinColumns = @JoinColumn(name = "project_id", referencedColumnName = "projectId"),
             inverseJoinColumns = @JoinColumn(name = "employee_id", referencedColumnName = "id")
     )
-    private List<Employee> employees;
+    private Set<Employee> employees;
+
 }

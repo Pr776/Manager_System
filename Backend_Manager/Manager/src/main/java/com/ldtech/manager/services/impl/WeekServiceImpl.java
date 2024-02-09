@@ -6,7 +6,6 @@ import com.ldtech.manager.repositories.WeekRepository;
 import com.ldtech.manager.services.WeekService;
 import org.springframework.stereotype.Service;
 
-import java.lang.module.ResolutionException;
 import java.util.List;
 
 @Service

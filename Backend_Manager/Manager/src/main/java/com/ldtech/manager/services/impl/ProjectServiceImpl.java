@@ -1,9 +1,12 @@
 package com.ldtech.manager.services.impl;
 
+import com.ldtech.manager.entities.Employee;
 import com.ldtech.manager.entities.Project;
 import com.ldtech.manager.exceptions.ResourceNotFoundException;
+import com.ldtech.manager.repositories.EmployeeRepository;
 import com.ldtech.manager.repositories.ProjectRepository;
 import com.ldtech.manager.services.ProjectService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,11 +14,11 @@ import java.util.List;
 @Service
 public class ProjectServiceImpl implements ProjectService {
 
+    @Autowired
     private ProjectRepository projectRepository;
-
-    public ProjectServiceImpl(ProjectRepository projectRepository) {
-        this.projectRepository = projectRepository;
-    }
+    
+    @Autowired
+    private EmployeeRepository employeeRepository;
 
     @Override
     public Project createProject(Project project) {
@@ -63,5 +66,17 @@ public class ProjectServiceImpl implements ProjectService {
 
         projectRepository.delete(project);
         return "Project with projectId - " + projectId + " deleted successfully!";
+    }
+
+    @Override
+    public void assignProjectToEmployees(long projectId, long empId) {
+        Employee employee = employeeRepository.findById(empId).orElseThrow(() -> new ResourceNotFoundException("Employee", "id", empId));
+        Project project = projectRepository.findById(projectId).orElseThrow(() -> new ResourceNotFoundException("Project", "id", projectId));
+
+        employee.getProjects().add(project);
+//        project.getEmployees().add(employee);
+
+        employeeRepository.save(employee);
+//        projectRepository.save(project);
     }
 }

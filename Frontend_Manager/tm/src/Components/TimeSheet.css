@@ -1,0 +1,131 @@
+.timesheet-container {
+  /* position: absolute; */
+  /* height: 100vh; */
+  /* position: fixed; */
+  width: 100%;
+  height: 100%;
+  /* background-color: #000000; */
+  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+}
+
+.logo-ts {
+position: absolute;
+top: 0;
+left: 0;
+height: 45px;
+width: 160px;
+margin-bottom: 10px;
+padding-top: 4px;
+padding-left: 28px;
+display: flex;
+}
+
+.header-container {
+position: absolute;
+padding-right: 20px;
+/* padding-left: 20px; */
+left: 0;
+top: 12%;
+width: 100%;
+/* background-color: #f2efef; */
+padding: 10px;
+/* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+}
+
+.emp-details {
+padding-left: 38px;
+font-size: small;
+display: grid;
+grid-template-columns: 1fr; /* Change to a single column */
+/* grid-row-gap: 1px;  */
+left:0;
+position: absolute;
+/* background-color: #f2efef; */
+/* width: 100%; */
+
+}
+
+.date-emp {
+font-size: small;
+position: absolute;
+top: 0;
+right: 0;
+text-align: right;
+margin-right: 38px;
+padding-top: 94px;
+/* background-color: #f2efef; */
+}
+
+.date {
+margin-bottom: 10px;
+}
+
+/* Optional: Adjust margins and padding for better alignment */
+.date-emp input {
+margin-left: 10px;
+margin-top: 5px;
+}
+
+.date-emp p {
+margin-bottom: 5px;
+padding-top: 5px;
+}
+
+.table-container {
+position: absolute;
+display: flex;
+justify-content: space-between;
+left: 0;
+padding-left: 38px;
+
+/* padding-top: 20px; */
+width: 96%;
+/* border-collapse: collapse; */
+}
+
+.table-container th {
+border: 1px solid #ddd; /* Border color */
+padding: 8px;
+text-align: left;
+background-color: #f2efef; 
+/* width: 100%; */
+/* border-collapse: collapse; */
+}
+
+/* Style table data cells */
+.table-container td {
+border: 1px solid #050505; /* Border color */
+/* padding-left: 16px; */
+padding: 10px;
+text-align: center
+}
+
+/* Add space between table heading and data */
+.table-container th,
+.table-container td {
+margin-bottom: 10px; /* Adjust this value to create space between heading and data */
+}
+
+
+.approval {
+  position: absolute;
+  left: 85.5%;
+  top: calc(75% + 100px); /* Adjusted top position */
+  font-size: 15px;
+}
+
+.buttons{
+  top: 95%;
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* padding-right: 10px; */
+  /* align-items: center; */
+  /* align-content: center; */
+  /* color: aqua; */
+}
+
+.buttons button{
+  background-color: aqua;
+}

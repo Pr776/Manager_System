@@ -1,22 +1,24 @@
 package com.ldtech.manager.controllers;
 
 import com.ldtech.manager.dtos.EmployeeDto;
+import com.ldtech.manager.payload.EmployeeProjectResponse;
 import com.ldtech.manager.entities.Employee;
 import com.ldtech.manager.entities.Project;
 import com.ldtech.manager.entities.Timesheet;
 import com.ldtech.manager.entities.Week;
+import com.ldtech.manager.repositories.EmployeeRepository;
+import com.ldtech.manager.repositories.ProjectRepository;
 import com.ldtech.manager.services.EmployeeService;
 import com.ldtech.manager.services.ProjectService;
 import com.ldtech.manager.services.TimesheetService;
 import com.ldtech.manager.services.WeekService;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/employee")
@@ -27,6 +29,12 @@ public class EmployeeController {
     private TimesheetService timesheetService;
     private ProjectService projectService;
     private ModelMapper modelMapper;
+
+    @Autowired
+    private EmployeeRepository employeeRepository;
+
+    @Autowired
+    private ProjectRepository projectRepository;
 
     public EmployeeController(EmployeeService employeeService, WeekService weekService, TimesheetService timesheetService, ProjectService projectService, ModelMapper modelMapper) {
         this.employeeService = employeeService;
@@ -54,6 +62,7 @@ public class EmployeeController {
     }
 
     // get all employees
+    // http://localhost:8080/api/employee/getEmployee/all
     @GetMapping("/getEmployee/all")
     public ResponseEntity<List<EmployeeDto>> getAllEmployess(){
         List<EmployeeDto> allEmployees = employeeService.getAllEmployees();
@@ -62,6 +71,7 @@ public class EmployeeController {
 
 
     // get employee by id
+    // http://localhost:8080/api/employee/1
     @GetMapping("/{id}")
     public ResponseEntity<EmployeeDto> searchById(@PathVariable("id") long id){
         EmployeeDto employeeDto = employeeService.searchById(id);
@@ -69,6 +79,7 @@ public class EmployeeController {
     }
 
     // get employee by empId
+    // http://localhost:8080/api/employee/empId/L000150
     @GetMapping("/empId/{empId}")
     public ResponseEntity<EmployeeDto> searchByEmpId(@PathVariable("empId") String empId){
         EmployeeDto employeeDto = employeeService.searchByEmployeeId(empId);
@@ -76,6 +87,7 @@ public class EmployeeController {
     }
 
     // get employee by name
+    // http://localhost:8080/api/employee/name/Manas Ranjan Mohanta
     @GetMapping("/name/{empName}")
     public ResponseEntity<EmployeeDto> searchByEmployeeName(@PathVariable String empName){
         EmployeeDto employee = employeeService.searchByEmployeeName(empName);
@@ -84,7 +96,8 @@ public class EmployeeController {
 
 
 
-//     get employees by status
+    // get employees by status
+    // http://localhost:8080/api/employee/status/Pending
     @GetMapping("/status/{status}")
     public ResponseEntity<List<EmployeeDto>> searchByStatus(@PathVariable String status){
         List<EmployeeDto> employees = employeeService.searchByStatus(status);
@@ -92,6 +105,7 @@ public class EmployeeController {
     }
 
     // get employees by client
+    //http://localhost:8080/api/employee/client/Google
     @GetMapping("/client/{client}")
     public ResponseEntity<List<EmployeeDto>> searchByClient(@PathVariable String client){
         List<EmployeeDto> employees = employeeService.searchByClient(client);
@@ -99,6 +113,7 @@ public class EmployeeController {
     }
 
     //get employees by department
+    // http://localhost:8080/api/employee/client/Google
     @GetMapping("/department/{department}")
     public ResponseEntity<List<EmployeeDto>> searchByDepartment(@PathVariable String department){
         List<EmployeeDto> employees = employeeService.searchByDepartment(department);
@@ -115,50 +130,75 @@ public class EmployeeController {
     // employee-project----------------------------------------------------------------------
 
 
-//    Save a new employee (/saveEmployee)
+    //    Save a new employee (/saveEmployee)
     @PostMapping("/createEmployee")
     public String createEmployee(@RequestBody Employee employee){
         employeeService.createEmployee(employee);
         return "Employee saved!!!";
     }
 
-//    Create a new employee and assign him/her to an existing project (/createEmployeeForProject/{projId})
+    //    Create a new employee and assign him/her to an existing project (/createEmployeeForProject/{projId})
     @PostMapping("/createEmployeeForProject/{projectId}")
     public String createEmployeeForProject(@RequestBody Employee employee, @PathVariable("projectId") long projectId){
+        // creating new employee for project
         Employee employee1 = employeeService.createEmployee(employee);
-        
-        // get a project
 
+        // get a project from db
         Project project = projectService.getProjectById(projectId);
 
-        // create employees list
-        List<Employee> employees = new ArrayList<>((Collection) employee1);
+        Set<Employee> employees = project.getEmployees();
+        if(employees == null){
+            employees = new HashSet<>();
+        }
+        employees.add(employee);
 
-        // assign employee to project
+        // assign employee set to project
         project.setEmployees(employees);
 
-        // saving project
-        Project project1 = projectService.updateProjectById(project.getProjectId(), project);
+        // save project
+        projectRepository.save(project);
 
-        return "Employee saved!!!";
+        return "Employee Created and Assigned to Project!!!";
     }
 
-//    Fetch some existing employees and assign them to an existing project (/assignEmployeeToProject/{projId})
+
+    //    Fetch some existing employees and assign them to an existing project (/assignEmployeeToProject/{projId})
     @PostMapping("/assignEmployeeToProject/{employeeId}/{projectId}")
     public String assignEmployeeToProject(@PathVariable(name = "employeeId") String employeeId, @PathVariable("projectId") long projectId){
         // get employee
         EmployeeDto employeeDto = employeeService.searchByEmployeeId(employeeId);
         Employee employee = modelMapper.map(employeeDto, Employee.class);
 
-        List<Employee> employees = new ArrayList<>((Collection) employee);
-
         // get project
         Project project = projectService.getProjectById(projectId);
 
-        // setting project to employees and employees to project
+        Set<Employee> employees = project.getEmployees();
+        if(employees == null){
+            employees = new HashSet<>();
+        }
+        employees.add(employee);
+
+        // assign employee set to project
         project.setEmployees(employees);
 
-        return "Employee Saved!!!";
+        // save project
+        projectRepository.save(project);
+
+        return "employee assigned to project";
+
+    }
+
+    @GetMapping("/getEmployee/{empId}")
+    public EmployeeProjectResponse getEmployee(@PathVariable(name = "empId") String empId) {
+        // get employee details
+
+        Employee employee = employeeRepository.findByEmpId(empId);
+        long id = employee.getId();
+        List<Project> projects = projectRepository.findProjectByEmployeesId(id);
+
+        EmployeeProjectResponse response = modelMapper.map(employee, EmployeeProjectResponse.class);
+        response.setProjects(projects);
+        return response;
 
     }
 
