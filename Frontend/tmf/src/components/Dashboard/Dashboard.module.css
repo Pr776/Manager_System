@@ -1,0 +1,59 @@
+.dashboard-logo {
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  width: 300px;
+  height: 136px;
+}
+
+.dashboard-home-button {
+  position: absolute;
+  right: 0%;
+  top: 5%;
+  display: flex;
+  padding-left: 5px;
+}
+
+.dashboard-form {
+  position: absolute;
+  left: 2.75%;
+  top: 15%;
+  display: flex;
+}
+
+.dashboard-form2 {
+  position: absolute;
+  left: 2.75%;
+  top: 22%;
+  display: flex;
+  margin-left: 34px;
+}
+
+.dashboard-form3 {
+  position: absolute;
+  left: 2.75%;
+  top: 29%;
+  display: flex;
+  margin-left: 34px;
+}
+
+.dashboard-form4 {
+  position: absolute;
+  left: 2.75%;
+  top: 36%;
+}
+
+.dashboard-table {
+  position: absolute;
+  left: 2.75%;
+  top: 48%;
+  display: flex;
+}
+
+.dashboard-table1 table th td {
+  border: 1px solid rgb(0, 0, 0);
+  border-collapse: collapse;
+  background-color: rgb(255, 255, 255);
+  padding: 10px;
+  padding-left: 50px;
+}

@@ -1,0 +1,75 @@
+.activity-container {
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  width: 100%;
+  height: 100%;
+}
+
+.activity-logo {
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  width: 300px;
+  height: 136px;
+}
+
+.activity-form {
+  position: absolute;
+  left: 2.75%;
+  top: 15%;
+  display: flex;
+}
+
+.activity-form2 {
+  position: absolute;
+  left: 2.75%;
+  top: 22%;
+  display: flex;
+  margin-left: 34px;
+}
+
+.activity-form3 {
+  position: absolute;
+  left: 2.75%;
+  top: 27%;
+  font-size: medium;
+}
+
+.activity-table1 {
+  position: absolute;
+  left: 2.75%;
+  top: 40%;
+}
+
+.activity-table2 {
+  position: absolute;
+  left: 2.75%;
+  top: 55%;
+  display: flex;
+}
+
+.activity-table1 table,
+th,
+td {
+  border: 1px solid rgb(0, 0, 0);
+  border-collapse: collapse;
+  background-color: rgb(255, 255, 255);
+  padding: 10px;
+  padding-left: 50px;
+}
+
+.activity-table2 table,
+th,
+td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  background-color: rgb(215, 209, 201);
+}
+
+.activity-approval {
+  position: absolute;
+
+  right: 0%;
+  bottom: 10%;
+}

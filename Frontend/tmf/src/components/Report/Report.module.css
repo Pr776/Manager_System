@@ -1,0 +1,27 @@
+.report-logo {
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  width: 300px;
+  height: 136px;
+}
+
+.report-form {
+  position: absolute;
+  left: 2.75%;
+  top: 15%;
+  display: flex;
+  margin-left: 8px;
+}
+
+.report-form2 {
+  position: absolute;
+  left: 2.75%;
+  top: 22%;
+  display: flex;
+}
+
+/* .report-buttons {
+  position: absolute;
+  bottom: 10%;
+} */
