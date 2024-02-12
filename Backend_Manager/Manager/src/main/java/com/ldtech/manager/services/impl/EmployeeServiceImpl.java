@@ -14,6 +14,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -161,27 +164,44 @@ public class EmployeeServiceImpl implements EmployeeService {
     // Dashboard is not complete
     @Override
     public List<EmployeeDto> getDashboard() {
-//        LocalDate entryDate = LocalDate.now();
+        LocalDate currentDate = LocalDate.now();
+// Find the start and end dates of the current week
+        LocalDate startDate = currentDate.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+        LocalDate endDate = startDate.plusDays(4);
 
-//        Week week = new Week(1L, LocalDate.of(2024, 01, 01), LocalDate.of(2024, 01, 05));
+        List<Employee> employeeList = new ArrayList<>();
+        for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
+            List<Employee> employees = employeeRepository.findEmployeesByWeekEntryDate(date);
+            employeeList.addAll(employees);
+
+        }
 
 
 //        List<Employee> employees = employeeRepository.findEmployeesByTimesheetEntryDateAndTimesheetStatus(entryDate, "Pending");
 //        List<Employee> employees = employeeRepository.findEmployeesByWeekAndTimesheetStatus(week, "Pending");
 //        employeeRepository.findEmployeesByWeek(week);
-        List<Employee> employees = new ArrayList<>();
 
 //        for (LocalDate date : week){
 //
 //        }
 //
-        for (Employee employee : employees){
+        for (Employee employee : employeeList){
             Timesheet timesheet = timesheetRepository.findById(employee.getTimesheet().getTimesheetId()).orElse(null);
-
             employee.setTimesheet(timesheet);
         }
 
-        List<EmployeeDto> employeeDtos = employees.stream().map(employee -> modelMapper.map(employee, EmployeeDto.class)).collect(Collectors.toList());
+        System.out.println(employeeList);
+        List<Employee> listEmployee = new ArrayList<>();
+        for (Employee employee : employeeList){
+            System.out.println(employee);
+
+           if("Pending".equals(employee.getTimesheet().getStatus())){
+              listEmployee.add(employee);
+           }
+        }
+        System.out.println(listEmployee);
+
+        List<EmployeeDto> employeeDtos = listEmployee.stream().map(employee -> modelMapper.map(employee, EmployeeDto.class)).collect(Collectors.toList());
         return employeeDtos;
     }
 

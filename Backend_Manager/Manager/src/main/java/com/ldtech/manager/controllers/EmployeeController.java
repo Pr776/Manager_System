@@ -120,7 +120,7 @@ public class EmployeeController {
         return ResponseEntity.ok(employees);
     }
 
-    // Manager Dashboard api
+    // Manager Dashboard api(by default pending and current week)
     @GetMapping("/dashboard")
     public ResponseEntity<List<EmployeeDto>> getManagerDashboard(){
         List<EmployeeDto> employeeList = employeeService.getDashboard();
