@@ -307,15 +307,28 @@ const ResponsiveDatePicker = styled(DatePicker)`
 
 const AlertContainer = styled.div`
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   background-color: yellow;
   color: black;
-  padding: 20px;
-  border-radius: 5px;
-  z-index: 1000;
+  left: 290px;
   display: ${(props) => (props.show ? "block" : "none")};
+  padding-right: 33px;
+  margin-left: 268px;
+  border-right-width: 0px;
+  border-right-style: solid;
+  margin-bottom: 0px;
+  border-top-width: 0px;
+  border-top-style: solid;
+  margin-right: 0px;
+  animation: slide-in 3s linear forwards;
+
+  @keyframes slide-in {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(0%);
+    }
+  }
 `;
 
 const Home = () => {
@@ -382,6 +395,13 @@ const Home = () => {
     fetchPendingCount();
   }, []); // Run once on component mount
 
+  useEffect(() => {
+    // Set showAlert to true to display the alert message
+    setShowAlert(true);
+    // Set showAlert back to false after 3 seconds
+    setTimeout(() => setShowAlert(false), 3000);
+  }, []);
+
   if (loading) {
     return (
       <div className="spinner-container">
@@ -400,7 +420,17 @@ const Home = () => {
   return (
     <>
       <AlertContainer show={showAlert}>
-        <p>Pending Count: {pendingCount}</p>
+        <p
+          style={{
+            fontStyle: "italic",
+            borderTopWidth: "30px",
+            borderTopStyle: "solid",
+            borderTopColor: "yellow",
+          }}
+        >
+          &nbsp;&nbsp;&nbsp;You have {pendingCount} Timesheets waiting for your
+          approval.
+        </p>
       </AlertContainer>
       <DashboardContainer>
         <SidebarContainer>

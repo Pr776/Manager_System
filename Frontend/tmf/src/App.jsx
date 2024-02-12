@@ -9,6 +9,7 @@ import Report from "./components/Report/Report";
 import Rough from "./components/Rough/Rough";
 import Timesheet from "./components/Timesheet/Timesheet";
 import Dashboard from "./components/Dashboard/Dashboard";
+import ResetPassword from "./components/ResetPassword/ResetPassword";
 
 function App() {
   // const approvedCount = 50;
@@ -26,6 +27,7 @@ function App() {
         <Route path="/rough" element={<Rough />} />
         <Route path="/timesheet" element={<Timesheet />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="reset-password/" element={<ResetPassword />} />
       </Routes>
     </div>
   );
