@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/employeeTimesheet")
+@CrossOrigin("*")
 public class EmployeeTimesheetController {
 
     @Autowired

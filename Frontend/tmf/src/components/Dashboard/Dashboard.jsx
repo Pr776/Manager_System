@@ -1,8 +1,23 @@
 import React from "react";
 import DashboardCSS from "./Dashboard.module.css";
 import { Table } from "antd";
+import { useState } from "react";
+import DatePicker from "react-datepicker";
 
 function Dashboard() {
+  const [weekStartDate, setWeekStartDate] = useState("");
+  const [weekEndDate, setWeekEndDate] = useState("");
+
+  const handleWeekStartDateChange = (date) => {
+    setWeekStartDate(date);
+
+    // Calculate week end date (4 days later)
+    const endDate = new Date(date);
+    endDate.setDate(endDate.getDate() + 4);
+    const formattedEndDate = endDate.toISOString().split("T")[0];
+    setWeekEndDate(formattedEndDate);
+  };
+
   const pagination = {
     pageSize: 5,
     showQuickJumper: true,
@@ -156,7 +171,12 @@ function Dashboard() {
         <label style={{ fontSize: "15px", marginLeft: "800px" }}>
           Week Start Date:&nbsp;
         </label>
-        <input type="date" name="weekstartdate" id="weekstartdate" />
+        <input
+          type="date"
+          name="weekstartdate"
+          id="weekstartdate"
+          onChange={(e) => handleWeekStartDateChange(e.target.value)}
+        />
       </div>
       <div className={DashboardCSS["dashboard-form2"]}>
         <label style={{ fontSize: "15px" }}>Employee Id:&nbsp;</label>
@@ -169,7 +189,14 @@ function Dashboard() {
         <label style={{ fontSize: "15px", marginLeft: "800px" }}>
           Week End Date:&nbsp;
         </label>
-        <input type="date" name="weekenddate" id="weekenddate" />
+        {/* <input type="date" name="weekenddate" id="weekenddate" /> */}
+        <input
+          type="date"
+          name="weekEndDate"
+          id="weekEndDate"
+          value={weekEndDate}
+          readOnly
+        />
       </div>
       <div className={DashboardCSS["dashboard-form3"]}>
         <label style={{ fontSize: "15px" }}>Search by status:&nbsp;</label>

@@ -511,7 +511,7 @@ const Home = () => {
                   { name: "Pending", value: pendingCount },
                 ]}
                 dataKey="value"
-                fontSize={18}
+                fontSize={15}
                 nameKey="name"
                 cx="50%"
                 cy="50%"

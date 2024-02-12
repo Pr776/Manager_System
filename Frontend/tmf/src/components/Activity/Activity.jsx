@@ -2,9 +2,22 @@ import React from "react";
 import ActivityCSS from "./Activity.module.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import DatePicker from "react-datepicker";
 
 function Activity() {
   const [tableRows, setTableRows] = useState([{ id: 1 }]); // Initial row
+  const [weekStartDate, setWeekStartDate] = useState("");
+  const [weekEndDate, setWeekEndDate] = useState("");
+
+  const handleWeekStartDateChange = (date) => {
+    setWeekStartDate(date);
+
+    // Calculate week end date (4 days later)
+    const endDate = new Date(date);
+    endDate.setDate(endDate.getDate() + 4);
+    const formattedEndDate = endDate.toISOString().split("T")[0];
+    setWeekEndDate(formattedEndDate);
+  };
 
   const addRow = () => {
     if (tableRows.length < 4) {
@@ -45,10 +58,17 @@ function Activity() {
           name="empid"
           id="empid"
         />
-        <label style={{ fontSize: "15px", marginLeft: "800px" }}>
+        <label
+          style={{ fontSize: "15px", marginLeft: "800px", paddingTop: "7px" }}
+        >
           Week Start Date:&nbsp;
         </label>
-        <input type="date" name="weekstartdate" id="weekstartdate" />
+        <input
+          type="date"
+          name="weekstartdate"
+          id="weekstartdate"
+          onChange={(e) => handleWeekStartDateChange(e.target.value)}
+        />
       </div>
       <div className={ActivityCSS["activity-form2"]}>
         <label style={{ fontSize: "15px" }}>Employee Id:&nbsp;</label>
@@ -61,7 +81,18 @@ function Activity() {
         <label style={{ fontSize: "15px", marginLeft: "800px" }}>
           Week End Date:&nbsp;
         </label>
-        <input type="date" name="weekenddate" id="weekenddate" />
+        <input
+          type="date"
+          name="weekenddate"
+          id="weekenddate"
+          value={weekEndDate}
+          readOnly
+        />
+        {/* <input
+          type="text"
+          value={weekEndDate ? weekEndDate.toLocaleDateString() : ""}
+          readOnly
+        /> */}
       </div>
       <div className={ActivityCSS["activity-form3"]}>
         <p>Role: Developer</p>
