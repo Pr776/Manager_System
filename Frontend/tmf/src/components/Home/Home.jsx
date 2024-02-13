@@ -197,6 +197,7 @@ const MenuContainer = styled.ul`
   margin: 0;
   padding: 0;
   width: 100%;
+  font-family: monospace;
 `;
 
 const MenuItem = styled.li`
@@ -440,6 +441,12 @@ const Home = () => {
             {/* <CompanyName>Your Company Name</CompanyName> */}
           </LogoContainer>
           <MenuContainer>
+            <MenuItem>
+              <MenuLink href="/home" style={{ backgroundColor: "grey" }}>
+                <MenuIcon className="fas fa-tachometer-alt" />
+                Home
+              </MenuLink>
+            </MenuItem>
             <MenuItem>
               <MenuLink href="/dashboard">
                 <MenuIcon className="fas fa-tachometer-alt" />
