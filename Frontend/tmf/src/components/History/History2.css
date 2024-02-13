@@ -53,3 +53,13 @@
 .back-button {
   margin-top: 20px;
 }
+
+.history {
+  position: absolute;
+  top: 152px;
+  margin-top: 32.08px;
+  padding-top: 1px;
+  font-family: monospace;
+  color: darkred;
+  padding-left: 29px;
+}

@@ -19,6 +19,7 @@
   left: 2.75%;
   top: 15%;
   display: flex;
+  padding-top: 16px;
 }
 
 .timesheet-form2 {
@@ -26,7 +27,6 @@
   left: 2.75%;
   top: 22%;
   display: flex;
-  margin-left: 34px;
 }
 
 .timesheet-form3 {

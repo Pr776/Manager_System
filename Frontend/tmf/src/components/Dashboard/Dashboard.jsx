@@ -143,6 +143,17 @@ function Dashboard() {
           alt="logo"
           // className={ActivityCSS["activity-logo"]}
         />
+        <h3
+          style={{
+            marginLeft: "36px",
+            marginBottom: "-22.92px",
+            marginTop: "-16.92px",
+            color: "darkred",
+            fontFamily: "monospace",
+          }}
+        >
+          Dashboard
+        </h3>
       </div>
       <div className={DashboardCSS["dashboard-home-button"]}>
         <button
@@ -186,7 +197,9 @@ function Dashboard() {
           name="empid"
           id="empid"
         />
-        <label style={{ fontSize: "15px", marginLeft: "800px" }}>
+        <label
+          style={{ fontSize: "15px", marginLeft: "800px", paddingLeft: "29px" }}
+        >
           Week End Date:&nbsp;
         </label>
         {/* <input type="date" name="weekenddate" id="weekenddate" /> */}
@@ -196,6 +209,7 @@ function Dashboard() {
           id="weekEndDate"
           value={weekEndDate}
           readOnly
+          style={{ paddingLeft: "4px", marginLeft: "2px" }}
         />
       </div>
       <div className={DashboardCSS["dashboard-form3"]}>
@@ -206,7 +220,9 @@ function Dashboard() {
           <option value="Rejected">Rejected</option>
           <option value="Pending">Pending</option>
         </select>
-        <label style={{ fontSize: "15px", marginLeft: "800px" }}>
+        <label
+          style={{ fontSize: "15px", marginLeft: "800px", paddingLeft: "70px" }}
+        >
           Search by Department:&nbsp;
         </label>
         <select>

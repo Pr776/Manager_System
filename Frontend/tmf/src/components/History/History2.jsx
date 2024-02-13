@@ -325,6 +325,9 @@ const History2 = () => {
           alt="Logo"
           className="logo"
         />
+        <h3 style={{}} className="history">
+          History
+        </h3>
       </div>
       <Space className="button-space">
         <Button onClick={() => setSearchType("Emp Id")}>

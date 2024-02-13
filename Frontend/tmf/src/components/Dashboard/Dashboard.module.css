@@ -19,6 +19,8 @@
   left: 2.75%;
   top: 15%;
   display: flex;
+  padding-top: 16px;
+  margin-left: -4px;
 }
 
 .dashboard-form2 {
@@ -27,6 +29,7 @@
   top: 22%;
   display: flex;
   margin-left: 34px;
+  margin-left: -4px;
 }
 
 .dashboard-form3 {
@@ -35,11 +38,13 @@
   top: 29%;
   display: flex;
   margin-left: 34px;
+  margin-left: -4px;
 }
 
 .dashboard-form4 {
   position: absolute;
   left: 2.75%;
+  margin-left: -5px;
   top: 36%;
 }
 

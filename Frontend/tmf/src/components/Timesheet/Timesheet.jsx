@@ -36,6 +36,17 @@ function Timesheet() {
           alt="logo"
           // className={ActivityCSS["activity-logo"]}
         />
+        <h3
+          style={{
+            marginLeft: "36px",
+            marginBottom: "-22.92px",
+            marginTop: "-16.92px",
+            color: "darkred",
+            fontFamily: "monospace",
+          }}
+        >
+          Timehseet
+        </h3>
       </div>
       <div className={TimesheetCSS["timesheet-form"]}>
         <label style={{ fontSize: "15px" }}>Employee Name:&nbsp;</label>
@@ -58,10 +69,17 @@ function Timesheet() {
           name="empname"
           id="empname"
         />
-        <label style={{ fontSize: "15px", marginLeft: "800px" }}>
+        <label
+          style={{ fontSize: "15px", marginLeft: "800px", paddingLeft: "29px" }}
+        >
           Week End Date:&nbsp;
         </label>
-        <input type="date" name="weekenddate" id="weekenddate" />
+        <input
+          type="date"
+          name="weekenddate"
+          id="weekenddate"
+          style={{ paddingLeft: "4px", marginLeft: "2px" }}
+        />
       </div>
       <div className={TimesheetCSS["timesheet-form3"]}>
         <p>Role: Developer</p>

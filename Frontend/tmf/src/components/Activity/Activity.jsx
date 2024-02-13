@@ -49,6 +49,17 @@ function Activity() {
           alt="logo"
           // className={ActivityCSS["activity-logo"]}
         />
+        <h3
+          style={{
+            marginLeft: "40px",
+            marginBottom: "-22.92px",
+            marginTop: "-16.92px",
+            color: "darkred",
+            fontFamily: "monospace",
+          }}
+        >
+          Activity
+        </h3>
       </div>
       <div className={ActivityCSS["activity-form"]}>
         <label style={{ fontSize: "15px" }}>Employee Name:&nbsp;</label>
@@ -78,7 +89,9 @@ function Activity() {
           name="empname"
           id="empname"
         />
-        <label style={{ fontSize: "15px", marginLeft: "800px" }}>
+        <label
+          style={{ fontSize: "15px", marginLeft: "800px", paddingLeft: "30px" }}
+        >
           Week End Date:&nbsp;
         </label>
         <input
@@ -87,6 +100,7 @@ function Activity() {
           id="weekenddate"
           value={weekEndDate}
           readOnly
+          style={{ marginLeft: "4px" }}
         />
         {/* <input
           type="text"

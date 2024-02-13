@@ -44,6 +44,17 @@ function Report() {
     <div className={ReportCSS["report-container"]}>
       <div className={ReportCSS["report-logo"]}>
         <img src="https://www.ldtech.in/images/logo.png" alt="logo" />
+        <h3
+          style={{
+            marginLeft: "36px",
+            marginBottom: "-22.92px",
+            marginTop: "-16.92px",
+            color: "darkred",
+            fontFamily: "monospace",
+          }}
+        >
+          Report
+        </h3>
       </div>
       <div className={ReportCSS["report-form"]}>
         <label style={{ fontSize: "15px" }}>Search By Employee Id:&nbsp;</label>
@@ -78,7 +89,7 @@ function Report() {
           value={empName}
           onChange={(e) => setEmpName(e.target.value)}
         />
-        <label style={{ fontSize: "15px", marginLeft: "800px" }}>
+        <label style={{ fontSize: "15px", marginLeft: "771px" }}>
           To Date:&nbsp;
         </label>
         <input
