@@ -12,7 +12,7 @@ function Report() {
   const handleDownload = () => {
     // Functionality for downloading report
     // Implement this according to your requirements
-    console.log("Downloading report...");
+    alert("There is no data to download...");
   };
 
   const handleFromDateChange = (date) => {

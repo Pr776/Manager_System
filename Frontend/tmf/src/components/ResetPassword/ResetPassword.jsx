@@ -32,7 +32,8 @@ const ResetPassword = () => {
     } else {
       // You can add logic here to handle password reset, such as sending a request to the server
       // For demonstration purpose, let's assume password reset is successful
-      navigate("/login"); // Redirect to login page after successful password reset
+      navigate("/"); // Redirect to login page after successful password reset
+      alert("Password has been reset");
     }
   };
 

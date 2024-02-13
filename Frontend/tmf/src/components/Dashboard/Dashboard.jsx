@@ -7,6 +7,20 @@ import DatePicker from "react-datepicker";
 function Dashboard() {
   const [weekStartDate, setWeekStartDate] = useState("");
   const [weekEndDate, setWeekEndDate] = useState("");
+  // const [employeeNameFilter, setEmployeeNameFilter] = useState("");
+
+  const [filters, setFilters] = useState({
+    employeeName: "",
+    employeeId: "",
+    status: "",
+    client: "",
+    department: "",
+  });
+
+  const handleFilterChange = (e) => {
+    const { name, value } = e.target;
+    setFilters({ ...filters, [name]: value });
+  };
 
   const handleWeekStartDateChange = (date) => {
     setWeekStartDate(date);
@@ -135,6 +149,17 @@ function Dashboard() {
     },
   ]; // Add your data here
 
+  const filteredData = data.filter((item) => {
+    return (
+      item.empName.toLowerCase().includes(filters.employeeName.toLowerCase()) &&
+      item.empId.toLowerCase().includes(filters.employeeId.toLowerCase()) &&
+      (filters.status === "" || item.status === filters.status) &&
+      (filters.client === "" ||
+        item.client.toLowerCase().includes(filters.client.toLowerCase())) &&
+      (filters.department === "" || item.department === filters.department)
+    );
+  });
+
   return (
     <div className={DashboardCSS["dashboard-container"]}>
       <div className={DashboardCSS["dashboard-logo"]}>
@@ -176,8 +201,9 @@ function Dashboard() {
         <input
           type="text"
           placeholder="Enter Employee Name"
-          name="empid"
-          id="empid"
+          name="employeeName"
+          value={filters.employeeName}
+          onChange={handleFilterChange}
         />
         <label style={{ fontSize: "15px", marginLeft: "800px" }}>
           Week Start Date:&nbsp;
@@ -194,8 +220,10 @@ function Dashboard() {
         <input
           type="text"
           placeholder="Enter Employee Id"
-          name="empid"
+          name="employeeId"
           id="empid"
+          value={filters.employeeId}
+          onChange={handleFilterChange}
         />
         <label
           style={{ fontSize: "15px", marginLeft: "800px", paddingLeft: "29px" }}
@@ -214,7 +242,11 @@ function Dashboard() {
       </div>
       <div className={DashboardCSS["dashboard-form3"]}>
         <label style={{ fontSize: "15px" }}>Search by status:&nbsp;</label>
-        <select>
+        <select
+          value={filters.status}
+          onChange={handleFilterChange}
+          name="status"
+        >
           <option value="">Select Status</option>
           <option value="Approved">Approved</option>
           <option value="Rejected">Rejected</option>
@@ -225,15 +257,26 @@ function Dashboard() {
         >
           Search by Department:&nbsp;
         </label>
-        <select>
+        <select
+          value={filters.department}
+          onChange={handleFilterChange}
+          name="department"
+        >
           <option value="">Select Type</option>
           <option value="IT">IT</option>
-          <option value="NON-IT">NON-IT</option>
+          <option value="HR">HR</option>
+          <option value="Finance">Finance</option>
         </select>
       </div>
       <div className={DashboardCSS["dashboard-form4"]}>
         <label style={{ fontSize: "15px" }}>Search by client:&nbsp;</label>
-        <input type="text" placeholder="Enter Client Name" />
+        <input
+          type="text"
+          placeholder="Enter Client Name"
+          value={filters.client}
+          onChange={handleFilterChange}
+          name="client"
+        />
       </div>
       <div
         className={DashboardCSS["dashboard-table"]}
@@ -241,7 +284,8 @@ function Dashboard() {
       >
         <Table
           columns={columns}
-          dataSource={data}
+          // dataSource={data}
+          dataSource={filteredData}
           pagination={pagination}
           style={{
             fontSize: "25px",

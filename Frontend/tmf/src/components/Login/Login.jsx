@@ -22,7 +22,10 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (state.username === "user" && state.password === "password") {
+    if (
+      state.username === "manager@gmail.com" &&
+      state.password === "manager1234"
+    ) {
       setState({ ...state, isLoggedIn: true });
       navigate("/home");
     } else {

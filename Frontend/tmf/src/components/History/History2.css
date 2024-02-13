@@ -14,6 +14,7 @@
   display: flex;
   justify-content: flex-start;
   margin-bottom: 20px;
+  position: relative;
 }
 
 .logo {
@@ -55,7 +56,7 @@
 }
 
 .history {
-  position: absolute;
+  position: fixed;
   top: 152px;
   margin-top: 32.08px;
   padding-top: 1px;
