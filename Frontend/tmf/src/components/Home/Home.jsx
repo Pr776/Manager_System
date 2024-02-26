@@ -151,6 +151,7 @@ import { PieChart, Pie, Cell } from "recharts";
 import React, { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { FaTimes } from "react-icons/fa";
 import PropTypes from "prop-types";
 import "./Home.css";
 
@@ -166,7 +167,7 @@ const DashboardContainer = styled.div`
 `;
 
 const SidebarContainer = styled.div`
-  background-color: #f0f2f5;
+  background-color: lightgrey;
   width: 250px;
   min-height: 100vh; /* Make sure the sidebar takes at least the full height */
   display: flex;
@@ -246,7 +247,7 @@ const StatusContainer = styled.div`
   position: fixed;
   top: 0;
   left: 250px;
-  background-color: #f0f2f5;
+  background-color: lightgrey;
   padding: 10px;
   z-index: 1000;
   box-sizing: border-box;
@@ -332,6 +333,14 @@ const AlertContainer = styled.div`
   }
 `;
 
+const CloseIcon = styled.span`
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  cursor: pointer;
+  margin-top: 27px;
+`;
+
 const Home = () => {
   const navigate = useNavigate();
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -400,8 +409,12 @@ const Home = () => {
     // Set showAlert to true to display the alert message
     setShowAlert(true);
     // Set showAlert back to false after 3 seconds
-    setTimeout(() => setShowAlert(false), 3000);
+    setTimeout(() => setShowAlert(false));
   }, []);
+
+  const toggleAlert = () => {
+    setShowAlert(!showAlert);
+  };
 
   if (loading) {
     return (
@@ -421,23 +434,30 @@ const Home = () => {
   return (
     <>
       <AlertContainer show={showAlert}>
+        <CloseIcon onClick={toggleAlert}>
+          <FaTimes />
+        </CloseIcon>
         <p
           style={{
             fontStyle: "italic",
             borderTopWidth: "30px",
             borderTopStyle: "solid",
             borderTopColor: "yellow",
+            fontSize: "18px",
           }}
         >
           &nbsp;&nbsp;&nbsp;You have {pendingCount} Timesheets waiting for your
-          approval.
+          approval.&nbsp;
         </p>
       </AlertContainer>
       <DashboardContainer>
         <SidebarContainer>
           <LogoContainer>
             {/* Add your logo here */}
-            <Logo src="https://www.ldtech.in/images/logo.png" alt="logo" />
+            <Logo
+              src="https://ldtech.in/wp-content/uploads/2024/01/logo.png"
+              alt="logo"
+            />
             {/* <CompanyName>Your Company Name</CompanyName> */}
           </LogoContainer>
           <MenuContainer>

@@ -43,7 +43,10 @@ function Report() {
   return (
     <div className={ReportCSS["report-container"]}>
       <div className={ReportCSS["report-logo"]}>
-        <img src="https://www.ldtech.in/images/logo.png" alt="logo" />
+        <img
+          src="https://ldtech.in/wp-content/uploads/2024/01/logo.png"
+          alt="logo"
+        />
         <h3
           style={{
             marginLeft: "36px",

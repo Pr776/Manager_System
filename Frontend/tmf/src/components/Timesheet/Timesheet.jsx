@@ -32,7 +32,7 @@ function Timesheet() {
     <div className={TimesheetCSS["timesheet-container"]}>
       <div className={TimesheetCSS["timesheet-logo"]}>
         <img
-          src="https://www.ldtech.in/images/logo.png"
+          src="https://ldtech.in/wp-content/uploads/2024/01/logo.png"
           alt="logo"
           // className={ActivityCSS["activity-logo"]}
         />
@@ -45,7 +45,7 @@ function Timesheet() {
             fontFamily: "monospace",
           }}
         >
-          Timehseet
+          Timesheet
         </h3>
       </div>
       <div className={TimesheetCSS["timesheet-form"]}>

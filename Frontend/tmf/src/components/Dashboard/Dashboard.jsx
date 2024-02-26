@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import DashboardCSS from "./Dashboard.module.css";
 import { Table } from "antd";
 import { useState } from "react";
-import DatePicker from "react-datepicker";
+// import DatePicker from "react-datepicker";
 
 function Dashboard() {
   const [weekStartDate, setWeekStartDate] = useState("");
   const [weekEndDate, setWeekEndDate] = useState("");
   // const [employeeNameFilter, setEmployeeNameFilter] = useState("");
+  const [data, setData] = useState([]);
 
   const [filters, setFilters] = useState({
     employeeName: "",
@@ -16,6 +17,48 @@ function Dashboard() {
     client: "",
     department: "",
   });
+
+  // useEffect(() => {
+  //   // Function to fetch data from API
+  //   const fetchData = async () => {
+  //     try {
+  //       // Perform API call here and set data state
+  //       // Example:
+  //       const response = await fetch("http://localhost:8080/api/dashboard");
+  //       const jsonData = await response.json();
+  //       console.log("jsonData", jsonData);
+  //       setData(jsonData);
+  //       // For demonstration purpose, I'm setting dummy data here
+  //     } catch (error) {
+  //       console.error("Error fetching data:", error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = () => {
+    fetch("http://localhost:8080/api/dashboard")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Data fetched from API:", data);
+        setData(data);
+      })
+      .catch((error) => {
+        console.error("There was a problem fetching the data: ", error);
+      });
+  };
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
@@ -80,74 +123,74 @@ function Dashboard() {
     },
   ];
 
-  const data = [
-    {
-      key: "1",
-      date: "2023-06-01",
-      empId: "LD00001",
-      empName: "Suvendu",
-      project: "Project A",
-      department: "IT",
-      client: "Client A",
-      activityHours: "5",
-      status: "Pending",
-    },
-    {
-      key: "2",
-      date: "2023-06-02",
-      empId: "LD00002",
-      empName: "Subham",
-      project: "Project B",
-      department: "HR",
-      client: "Client B",
-      activityHours: "3",
-      status: "Approved",
-    },
-    {
-      key: "3",
-      date: "2023-06-03",
-      empId: "LD00003",
-      empName: "Sourav",
-      project: "Project C",
-      department: "Finance",
-      client: "Client C",
-      activityHours: "7",
-      status: "Rejected",
-    },
-    {
-      key: "4",
-      date: "2023-06-04",
-      empId: "LD00004",
-      empName: "Sourav",
-      project: "Project C",
-      department: "Finance",
-      client: "Client C",
-      activityHours: "7",
-      status: "Rejected",
-    },
-    {
-      key: "5",
-      date: "2023-06-05",
-      empId: "LD00005",
-      empName: "Sourav",
-      project: "Project C",
-      department: "Finance",
-      client: "Client C",
-      activityHours: "7",
-      status: "Rejected",
-    },
-    {
-      key: "6",
-      date: "2023-06-06",
-      empId: "LD00006",
-      empName: "Sourav",
-      project: "Project C",
-      department: "Finance",
-      client: "Client C",
-      activityHours: "7",
-      status: "Rejected",
-    },
-  ]; // Add your data here
+  // const data = [
+  //   {
+  //     key: "1",
+  //     date: "2023-06-01",
+  //     empId: "LD00001",
+  //     empName: "Suvendu",
+  //     project: "Project A",
+  //     department: "IT",
+  //     client: "Client A",
+  //     activityHours: "5",
+  //     status: "Pending",
+  //   },
+  //   {
+  //     key: "2",
+  //     date: "2023-06-02",
+  //     empId: "LD00002",
+  //     empName: "Subham",
+  //     project: "Project B",
+  //     department: "HR",
+  //     client: "Client B",
+  //     activityHours: "3",
+  //     status: "Approved",
+  //   },
+  //   {
+  //     key: "3",
+  //     date: "2023-06-03",
+  //     empId: "LD00003",
+  //     empName: "Sourav",
+  //     project: "Project C",
+  //     department: "Finance",
+  //     client: "Client C",
+  //     activityHours: "7",
+  //     status: "Rejected",
+  //   },
+  //   {
+  //     key: "4",
+  //     date: "2023-06-04",
+  //     empId: "LD00004",
+  //     empName: "Sourav",
+  //     project: "Project C",
+  //     department: "Finance",
+  //     client: "Client C",
+  //     activityHours: "7",
+  //     status: "Rejected",
+  //   },
+  //   {
+  //     key: "5",
+  //     date: "2023-06-05",
+  //     empId: "LD00005",
+  //     empName: "Sourav",
+  //     project: "Project C",
+  //     department: "Finance",
+  //     client: "Client C",
+  //     activityHours: "7",
+  //     status: "Rejected",
+  //   },
+  //   {
+  //     key: "6",
+  //     date: "2023-06-06",
+  //     empId: "LD00006",
+  //     empName: "Sourav",
+  //     project: "Project C",
+  //     department: "Finance",
+  //     client: "Client C",
+  //     activityHours: "7",
+  //     status: "Rejected",
+  //   },
+  // ];
 
   const filteredData = data.filter((item) => {
     return (
@@ -164,7 +207,7 @@ function Dashboard() {
     <div className={DashboardCSS["dashboard-container"]}>
       <div className={DashboardCSS["dashboard-logo"]}>
         <img
-          src="https://www.ldtech.in/images/logo.png"
+          src="https://ldtech.in/wp-content/uploads/2024/01/logo.png"
           alt="logo"
           // className={ActivityCSS["activity-logo"]}
         />

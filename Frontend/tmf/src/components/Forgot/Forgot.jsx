@@ -22,7 +22,7 @@ function Forgot() {
   return (
     <form className="login-form" onSubmit={handleSubmit}>
       <img
-        src="https://www.ldtech.in/images/logo.png"
+        src="https://ldtech.in/wp-content/uploads/2024/01/logo.png"
         alt="logo"
         style={{ paddingLeft: "90px" }}
       ></img>
