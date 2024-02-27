@@ -69,7 +69,37 @@ td {
 
 .timesheet-approval {
   position: absolute;
-
   right: 0%;
   bottom: 10%;
 }
+
+/* BEGIN: Responsive CSS */
+@media screen and (max-width: 768px) {
+  .timesheet-container {
+    position: relative;
+    height: auto;
+  }
+
+  .timesheet-logo {
+    position: relative;
+    width: 100%;
+    height: auto;
+  }
+
+  .timesheet-form,
+  .timesheet-form2,
+  .timesheet-form3,
+  .timesheet-table1,
+  .timesheet-table2 {
+    position: relative;
+    left: 0%;
+    top: 0%;
+  }
+
+  .timesheet-approval {
+    position: relative;
+    right: 0%;
+    bottom: 0%;
+  }
+}
+/* END: Responsive CSS */

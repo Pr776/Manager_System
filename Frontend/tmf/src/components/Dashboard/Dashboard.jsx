@@ -13,10 +13,34 @@ function Dashboard() {
   const [filters, setFilters] = useState({
     employeeName: "",
     employeeId: "",
-    status: "",
+    approvalStatus: "",
     client: "",
     department: "",
   });
+
+  useEffect(() => {
+    // Calculate current week's start and end dates
+    const currentDate = new Date();
+    const currentDayOfWeek = currentDate.getDay(); // 0 (Sunday) to 6 (Saturday)
+    const diff =
+      currentDate.getDate() -
+      currentDayOfWeek +
+      (currentDayOfWeek === 0 ? -6 : 1); // Adjust when current day is Sunday
+    const monday = new Date(currentDate.setDate(diff));
+    const friday = new Date(monday);
+    friday.setDate(monday.getDate() + 4);
+
+    // Set the start and end dates in the state
+    setWeekStartDate(formatDate(monday));
+    setWeekEndDate(formatDate(friday));
+
+    fetchData(); // Fetch data after setting the dates
+  }, []);
+
+  // Helper function to format date as "YYYY-MM-DD"
+  const formatDate = (date) => {
+    return date.toISOString().split("T")[0];
+  };
 
   // useEffect(() => {
   //   // Function to fetch data from API
@@ -83,23 +107,23 @@ function Dashboard() {
   const columns = [
     {
       title: "Date",
-      dataIndex: "date",
-      key: "date",
+      dataIndex: "logDate",
+      key: "logDate",
     },
     {
       title: "Emp ID",
-      dataIndex: "empId",
-      key: "empId",
+      dataIndex: "employeeId",
+      key: "employeeId",
     },
     {
       title: "Emp Name",
-      dataIndex: "empName",
-      key: "empName",
+      dataIndex: "employeeName",
+      key: "employeeName",
     },
     {
       title: "Project",
-      dataIndex: "project",
-      key: "project",
+      dataIndex: "projectName",
+      key: "projectName",
     },
     {
       title: "Department",
@@ -111,15 +135,15 @@ function Dashboard() {
       dataIndex: "client",
       key: "client",
     },
-    {
-      title: "Activity Hours",
-      dataIndex: "activityHours",
-      key: "activityHours",
-    },
+    // {
+    //   title: "Activity Hours",
+    //   dataIndex: "activityHours",
+    //   key: "activityHours",
+    // },
     {
       title: "Status",
-      dataIndex: "status",
-      key: "status",
+      dataIndex: "approvalStatus",
+      key: "approvalStatus",
     },
   ];
 
@@ -194,10 +218,17 @@ function Dashboard() {
 
   const filteredData = data.filter((item) => {
     return (
-      item.empName.toLowerCase().includes(filters.employeeName.toLowerCase()) &&
-      item.empId.toLowerCase().includes(filters.employeeId.toLowerCase()) &&
-      (filters.status === "" || item.status === filters.status) &&
-      (filters.client === "" ||
+      (!item.employeeName ||
+        item.employeeName
+          .toLowerCase()
+          .includes(filters.employeeName.toLowerCase())) &&
+      (!item.employeeId ||
+        item.employeeId
+          .toLowerCase()
+          .includes(filters.employeeId.toLowerCase())) &&
+      (filters.approvalStatus === "" ||
+        item.approvalStatus === filters.approvalStatus) &&
+      (!item.client ||
         item.client.toLowerCase().includes(filters.client.toLowerCase())) &&
       (filters.department === "" || item.department === filters.department)
     );
@@ -255,6 +286,7 @@ function Dashboard() {
           type="date"
           name="weekstartdate"
           id="weekstartdate"
+          value={weekStartDate}
           onChange={(e) => handleWeekStartDateChange(e.target.value)}
         />
       </div>
@@ -286,12 +318,12 @@ function Dashboard() {
       <div className={DashboardCSS["dashboard-form3"]}>
         <label style={{ fontSize: "15px" }}>Search by status:&nbsp;</label>
         <select
-          value={filters.status}
+          value={filters.approvalStatus}
           onChange={handleFilterChange}
-          name="status"
+          name="approvalStatus"
         >
           <option value="">Select Status</option>
-          <option value="Approved">Approved</option>
+          <option value="Accepted">Accepted</option>
           <option value="Rejected">Rejected</option>
           <option value="Pending">Pending</option>
         </select>
