@@ -6,8 +6,7 @@
 img {
   max-width: 55%;
   max-height: 50%;
-  padding: 30px;
-  /* padding-left: 90px; */
+  padding: 4vw; /* Adjust padding using viewport units */
 }
 
 html,
@@ -27,7 +26,7 @@ body {
     rgba(255, 255, 255, 0.9)
   );
   font-family: "Roboto", helvetica, arial, sans-serif;
-  font-size: 1.5em;
+  font-size: 1.5vw; /* Adjust font size using viewport units */
 }
 
 body:before {
@@ -43,8 +42,9 @@ body:before {
 }
 
 .login-form {
-  width: 100%;
-  padding: 2em;
+  width: 90%; /* Adjust width using percentage */
+  max-width: 30em; /* Adjust max-width using em units */
+  padding: 2vw; /* Adjust padding using viewport units */
   position: relative;
   background: rgba(0, 0, 0, 0.15);
 }
@@ -60,7 +60,7 @@ body:before {
 
 @media screen and (min-width: 600px) {
   .login-form {
-    width: 50vw;
+    width: 50%; /* Adjust width using percentage */
     max-width: 15em;
   }
 }
@@ -81,10 +81,10 @@ body:before {
 
 .lf--input {
   flex: 1;
-  padding: 1em;
+  padding: 1vw; /* Adjust padding using viewport units */
   border: 0;
   color: #8f8f8f;
-  font-size: 1rem;
+  font-size: 1.5vw; /* Adjust font size using viewport units */
 }
 
 .lf--input:focus {
@@ -95,13 +95,13 @@ body:before {
 
 .lf--submit {
   display: block;
-  padding: 1em;
+  padding: 1vw; /* Adjust padding using viewport units */
   width: 100%;
   background: linear-gradient(to right, #000000, #000000);
   border: 0;
   color: #fff;
   cursor: pointer;
-  font-size: 0.75em;
+  font-size: 1vw; /* Adjust font size using viewport units */
   font-weight: 600;
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
 }
@@ -115,10 +115,10 @@ body:before {
 .lf--forgot {
   margin-top: 1em;
   color: red;
-  font-size: 0.5em;
+  font-size: 0.75vw; /* Adjust font size using viewport units */
   text-align: center;
   position: relative;
-  padding-left: 140px;
+  padding-left: 20vw; /* Adjust padding using viewport units */
 }
 
 ::placeholder {
