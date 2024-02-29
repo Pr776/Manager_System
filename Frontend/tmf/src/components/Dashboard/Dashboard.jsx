@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import DashboardCSS from "./Dashboard.module.css";
 import { Table } from "antd";
 import { useState } from "react";
-// import IconButton from "@material-ui/core/IconButton";
+import IconButton from "@material-ui/core/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 
 // import DatePicker from "react-datepicker";
@@ -284,9 +284,9 @@ function Dashboard() {
         />
         {/* <button style={{ marginLeft: "10px" }}>Search</button> */}
 
-        <button style={{ marginLeft: "10px" }}>
-          <SearchIcon></SearchIcon>
-        </button>
+        <IconButton style={{ marginLeft: "10px" }} size="small">
+          <SearchIcon />
+        </IconButton>
         <label style={{ fontSize: "15px", marginLeft: "800px" }}>
           Week Start Date:&nbsp;
         </label>
@@ -308,9 +308,9 @@ function Dashboard() {
           value={filters.employeeId}
           onChange={handleFilterChange}
         />
-        <button style={{ marginLeft: "10px" }}>
-          <SearchIcon></SearchIcon>
-        </button>
+        <IconButton style={{ marginLeft: "10px" }} size="small">
+          <SearchIcon />
+        </IconButton>
         <label
           style={{ fontSize: "15px", marginLeft: "800px", paddingLeft: "29px" }}
         >
