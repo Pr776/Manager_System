@@ -17,23 +17,61 @@ function Report() {
       endDate: toDate,
     };
 
-    fetch("http://localhost:8080/api/report/download", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.blob();
+    if (empId !== "") {
+      fetch(`http://localhost:8080/api/report/download/id/${empId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
       })
-      .then((blob) => {
-        saveAs(blob, "employee.xls");
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.blob();
+        })
+        .then((blob) => {
+          saveAs(blob, "employee.xls");
+        })
+        .catch((error) => console.error(error));
+    } else if (empName !== "") {
+      fetch(`http://localhost:8080/api/report/download/name/${empName}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
       })
-      .catch((error) => console.error(error));
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.blob();
+        })
+        .then((blob) => {
+          saveAs(blob, "employee.xls");
+        })
+        .catch((error) => console.error(error));
+    } else {
+      fetch("http://localhost:8080/api/report/download", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.blob();
+        })
+        .then((blob) => {
+          saveAs(blob, "employee.xls");
+        })
+        .catch((error) => console.error(error));
+    }
   };
 
   const handleFromDateChange = (date) => {
