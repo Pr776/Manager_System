@@ -87,6 +87,81 @@ function Dashboard() {
       });
   };
 
+  const payload = {
+    startDate: weekStartDate,
+    endDate: weekEndDate,
+  };
+
+  console.log(filters.employeeName);
+  function handlenameSearch() {
+    fetch(`http://localhost:8080/api/dashboard/name/${filters.employeeName}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Data fetched from API:", data);
+        setData(data);
+      })
+      .catch((error) => {
+        console.error("There was a problem fetching the data: ", error);
+      });
+  }
+
+  function handleidSearch() {
+    fetch(`http://localhost:8080/api/dashboard/id/${filters.employeeId}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Data fetched from API:", data);
+        setData(data);
+      })
+      .catch((error) => {
+        console.error("There was a problem fetching the data: ", error);
+      });
+  }
+
+  function handleclientSearch() {
+    fetch(`http://localhost:8080/api/dashboard/client/${filters.client}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Data fetched from API:", data);
+        setData(data);
+      })
+      .catch((error) => {
+        console.error("There was a problem fetching the data: ", error);
+      });
+  }
+
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
     setFilters({ ...filters, [name]: value });
@@ -284,7 +359,11 @@ function Dashboard() {
         />
         {/* <button style={{ marginLeft: "10px" }}>Search</button> */}
 
-        <IconButton style={{ marginLeft: "10px" }} size="small">
+        <IconButton
+          style={{ marginLeft: "10px" }}
+          size="small"
+          onClick={handlenameSearch}
+        >
           <SearchIcon />
         </IconButton>
         <label style={{ fontSize: "15px", marginLeft: "800px" }}>
@@ -308,7 +387,11 @@ function Dashboard() {
           value={filters.employeeId}
           onChange={handleFilterChange}
         />
-        <IconButton style={{ marginLeft: "10px" }} size="small">
+        <IconButton
+          style={{ marginLeft: "10px" }}
+          size="small"
+          onClick={handleidSearch}
+        >
           <SearchIcon />
         </IconButton>
         <label
@@ -350,8 +433,7 @@ function Dashboard() {
         >
           <option value="">Select Type</option>
           <option value="IT">IT</option>
-          <option value="HR">HR</option>
-          <option value="Finance">Finance</option>
+          <option value="NON-IT">NON-IT</option>
         </select>
       </div>
       <div className={DashboardCSS["dashboard-form4"]}>
@@ -363,6 +445,13 @@ function Dashboard() {
           onChange={handleFilterChange}
           name="client"
         />
+        <IconButton
+          style={{ marginLeft: "10px" }}
+          size="small"
+          onClick={handleclientSearch}
+        >
+          <SearchIcon />
+        </IconButton>
       </div>
       <div
         className={DashboardCSS["dashboard-table"]}
