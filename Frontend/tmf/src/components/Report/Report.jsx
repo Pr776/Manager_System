@@ -1,8 +1,10 @@
+//
 import React from "react";
 import ReportCSS from "./Report.module.css";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaDownload } from "react-icons/fa";
+import { saveAs } from "file-saver";
 
 function Report() {
   const [empId, setEmpId] = useState("");
@@ -10,9 +12,28 @@ function Report() {
   const [empName, setEmpName] = useState("");
   const [toDate, setToDate] = useState("");
   const handleDownload = () => {
-    // Functionality for downloading report
-    // Implement this according to your requirements
-    alert("There is no data to download...");
+    const payload = {
+      startDate: fromDate,
+      endDate: toDate,
+    };
+
+    fetch("http://localhost:8080/api/report/download", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.blob();
+      })
+      .then((blob) => {
+        saveAs(blob, "employee.xls");
+      })
+      .catch((error) => console.error(error));
   };
 
   const handleFromDateChange = (date) => {
@@ -120,6 +141,7 @@ function Report() {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+            cursor: "pointer",
           }}
           onClick={handleDownload}
         >
@@ -142,7 +164,7 @@ function Report() {
         <button style={{ backgroundColor: "darkgray" }} onClick={handleBack}>
           Back
         </button>
-        <button style={{ backgroundColor: "burlywood" }}>Download</button>
+
         <button style={{ backgroundColor: "darkgray" }}>Cancel</button>
       </div>
     </div>
