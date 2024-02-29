@@ -99,6 +99,15 @@ function Report() {
     navigate(-1);
   };
 
+  const handleReset = () => {
+    setEmpId("");
+    setEmpName("");
+    const today = new Date();
+    const formattedDate = today.toISOString().split("T")[0]; // Format date as "YYYY-MM-DD"
+    setFromDate(formattedDate);
+    setToDate(formattedDate);
+  };
+
   return (
     <div className={ReportCSS["report-container"]}>
       <div className={ReportCSS["report-logo"]}>
@@ -203,7 +212,9 @@ function Report() {
           Back
         </button>
 
-        <button style={{ backgroundColor: "darkgray" }}>Cancel</button>
+        <button style={{ backgroundColor: "darkgray" }} onClick={handleReset}>
+          Cancel
+        </button>
       </div>
     </div>
   );
