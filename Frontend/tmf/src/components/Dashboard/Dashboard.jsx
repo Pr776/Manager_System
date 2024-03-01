@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import DashboardCSS from "./Dashboard.module.css";
 import { Table } from "antd";
 import { useState } from "react";
@@ -467,6 +467,7 @@ function Dashboard() {
             position: "relative",
             bottom: "25px",
             left: "250px",
+            paddingLeft: "100px",
           }}
         />
       </div>

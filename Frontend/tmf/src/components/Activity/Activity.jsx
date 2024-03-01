@@ -1,13 +1,62 @@
-import React from "react";
 import ActivityCSS from "./Activity.module.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import DatePicker from "react-datepicker";
+import IconButton from "@material-ui/core/IconButton";
+import SearchIcon from "@mui/icons-material/Search";
 
 function Activity() {
   const [tableRows, setTableRows] = useState([{ id: 1 }]); // Initial row
   const [weekStartDate, setWeekStartDate] = useState("");
   const [weekEndDate, setWeekEndDate] = useState("");
+  const [logDate, setLogDate] = useState("");
+  const [data, setData] = useState([]);
+  const [projectOptions, setProjectOptions] = useState([]);
+
+  const formatDate = (date) => {
+    return date.toISOString().split("T")[0];
+  };
+
+  useEffect(() => {
+    // Calculate current week's start and end dates
+    const currentDate = new Date();
+    setLogDate(formatDate(currentDate));
+
+    const currentDayOfWeek = currentDate.getDay(); // 0 (Sunday) to 6 (Saturday)
+    const diff =
+      currentDate.getDate() -
+      currentDayOfWeek +
+      (currentDayOfWeek === 0 ? -6 : 1); // Adjust when current day is Sunday
+    const monday = new Date(currentDate.setDate(diff));
+    const friday = new Date(monday);
+    friday.setDate(monday.getDate() + 4);
+
+    // Set the start and end dates in the state
+    setWeekStartDate(formatDate(monday));
+    setWeekEndDate(formatDate(friday));
+
+    fetchData(); // Fetch data after setting the dates
+  }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = () => {
+    fetch("http://localhost:8080/api/activityAllocations/projects/SK")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Data fetched from API:", data);
+        setProjectOptions(data); // Set project options directly from API response
+      })
+      .catch((error) => {
+        console.error("There was a problem fetching the data: ", error);
+      });
+  };
 
   const handleWeekStartDateChange = (date) => {
     setWeekStartDate(date);
@@ -69,6 +118,11 @@ function Activity() {
           name="empid"
           id="empid"
         />
+        {/* <button style={{ marginLeft: "10px" }}>Search</button> */}
+
+        <IconButton style={{ marginLeft: "10px" }} size="small">
+          <SearchIcon />
+        </IconButton>
         <label
           style={{ fontSize: "15px", marginLeft: "800px", paddingTop: "7px" }}
         >
@@ -78,6 +132,7 @@ function Activity() {
           type="date"
           name="weekstartdate"
           id="weekstartdate"
+          value={weekStartDate}
           onChange={(e) => handleWeekStartDateChange(e.target.value)}
         />
       </div>
@@ -89,6 +144,9 @@ function Activity() {
           name="empname"
           id="empname"
         />
+        <IconButton style={{ marginLeft: "10px" }} size="small">
+          <SearchIcon />
+        </IconButton>
         <label
           style={{ fontSize: "15px", marginLeft: "800px", paddingLeft: "30px" }}
         >
@@ -109,7 +167,7 @@ function Activity() {
         /> */}
       </div>
       <div className={ActivityCSS["activity-form3"]}>
-        <p>Role: Developer</p>
+        {/* <p>Role: Developer</p> */}
         <p>Reporting Manager: SK</p>
       </div>
       <div
@@ -122,28 +180,17 @@ function Activity() {
           <thead>
             <tr>
               <th>Log Date</th>
-              <th>Log In</th>
-              <th>Log Out</th>
-              <th>Gross Hours</th>
-              <th>Activity Hours</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td>
-                <input type="time" />
-              </td>
-              <td>
-                <input type="time" />
-              </td>
-              <td>
-                <input type="time" />
-              </td>
-              <td>
-                <input type="text" />
-              </td>
-              <td>
-                <input type="text" />
+                <input
+                  type="date"
+                  name="logDate"
+                  value={logDate}
+                  onChange={(e) => setLogDate(e.target.value)}
+                />
               </td>
             </tr>
           </tbody>
@@ -173,8 +220,11 @@ function Activity() {
                 <td>
                   {/* Dropdown for Project */}
                   <select>
-                    <option value="PSFT">PSFT</option>
-                    <option value="SAP">SAP</option>
+                    {projectOptions.map((projectName, index) => (
+                      <option key={index} value={projectName}>
+                        {projectName}
+                      </option>
+                    ))}
                   </select>
                 </td>
                 <td>
