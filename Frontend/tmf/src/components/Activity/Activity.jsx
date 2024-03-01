@@ -7,10 +7,97 @@ import SearchIcon from "@mui/icons-material/Search";
 function Activity() {
   const [tableRows, setTableRows] = useState([{ id: 1 }]); // Initial row
   const [weekStartDate, setWeekStartDate] = useState("");
+  const [projectType, setProjectType] = useState("");
+  const [activityType, setActivityType] = useState("");
   const [weekEndDate, setWeekEndDate] = useState("");
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
   const [logDate, setLogDate] = useState("");
-  const [data, setData] = useState([]);
+  const [selectedProject, setSelectedProject] = useState("");
+  // const [data, setData] = useState([]);
   const [projectOptions, setProjectOptions] = useState([]);
+  const [employeeName, setEmpName] = useState("");
+  const [employeeId, setEmpId] = useState("");
+
+  const payload = {
+    employeeId: employeeId,
+    allocateData: [
+      {
+        projectName: selectedProject,
+        projectType: projectType,
+        activityType: activityType,
+        activityStartTime: startTime,
+        activityEndTime: endTime,
+      },
+    ],
+    activityAllocationDate: logDate,
+  };
+
+  function saveActivity() {
+    fetch(`http://localhost:8080/api/activityAllocations/allocate`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Data fetched from API:", data);
+        // setData(data);
+      })
+      .catch((error) => {
+        console.error("There was a problem fetching the data: ", error);
+      });
+  }
+  const handleSearch = () => {
+    if (employeeName.trim() !== "") {
+      fetch(
+        `http://localhost:8080/api/activityAllocations/name/${employeeName}`
+      )
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          setEmpId(data.employeeId); // Set the employee ID
+        })
+        .catch((error) => {
+          console.error("There was a problem fetching the data: ", error);
+        });
+    } else {
+      // Handle empty employee name
+      console.error("Employee name cannot be empty");
+    }
+  };
+
+  const handleSearchid = () => {
+    if (employeeId.trim() !== "") {
+      fetch(`http://localhost:8080/api/activityAllocations/id/${employeeId}`)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          setEmpName(data.employeeName); // Set the employee ID
+        })
+        .catch((error) => {
+          console.error("There was a problem fetching the data: ", error);
+        });
+    } else {
+      // Handle empty employee name
+      console.error("Employee name cannot be empty");
+    }
+  };
 
   const formatDate = (date) => {
     return date.toISOString().split("T")[0];
@@ -90,6 +177,8 @@ function Activity() {
     navigate(-1);
   };
 
+  console.log("Payload:", payload);
+
   return (
     <div className={ActivityCSS["activity-container"]}>
       <div className={ActivityCSS["activity-logo"]}>
@@ -115,12 +204,18 @@ function Activity() {
         <input
           type="text"
           placeholder="Enter Employee Name"
-          name="empid"
-          id="empid"
+          name="employeeName"
+          id="employeeName"
+          value={employeeName}
+          onChange={(e) => setEmpName(e.target.value)}
         />
         {/* <button style={{ marginLeft: "10px" }}>Search</button> */}
 
-        <IconButton style={{ marginLeft: "10px" }} size="small">
+        <IconButton
+          style={{ marginLeft: "10px" }}
+          size="small"
+          onClick={handleSearch}
+        >
           <SearchIcon />
         </IconButton>
         <label
@@ -141,10 +236,16 @@ function Activity() {
         <input
           type="text"
           placeholder="Enter Employee Id"
-          name="empname"
-          id="empname"
+          name="employeeId"
+          id="employeeId"
+          value={employeeId}
+          onChange={(e) => setEmpId(e.target.value)}
         />
-        <IconButton style={{ marginLeft: "10px" }} size="small">
+        <IconButton
+          style={{ marginLeft: "10px" }}
+          size="small"
+          onClick={handleSearchid}
+        >
           <SearchIcon />
         </IconButton>
         <label
@@ -218,8 +319,11 @@ function Activity() {
               <tr key={row.id}>
                 {/* Replace below placeholders with your actual data */}
                 <td>
-                  {/* Dropdown for Project */}
-                  <select>
+                  <select
+                    value={selectedProject}
+                    onChange={(e) => setSelectedProject(e.target.value)}
+                  >
+                    <option>Select Here</option>
                     {projectOptions.map((projectName, index) => (
                       <option key={index} value={projectName}>
                         {projectName}
@@ -227,27 +331,50 @@ function Activity() {
                     ))}
                   </select>
                 </td>
+
+                {/* Dropdown for Project Type */}
                 <td>
                   {/* Dropdown for Project Type */}
-                  <select>
+                  <select
+                    value={projectType}
+                    onChange={(e) => setProjectType(e.target.value)}
+                  >
+                    <option>Select Here</option>
+
+                    <option value="Developement">Developement</option>
                     <option value="Support">Support</option>
                     <option value="Testing">Testing</option>
-                    <option value="Upgrade">Upgrade</option>
                   </select>
                 </td>
                 <td>
                   {/* Dropdown for Activity Type */}
-                  <select>
+                  <select
+                    value={activityType}
+                    onChange={(e) => setActivityType(e.target.value)}
+                  >
+                    <option>Select Here</option>
+
                     <option value="Fluid">Fluid</option>
-                    <option value="Testing">Testing</option>
                     <option value="Fiori">Fiori</option>
                   </select>
                 </td>
                 <td>
-                  <input type="time" />
+                  <input
+                    type="time"
+                    name="startTime"
+                    id="startTime"
+                    value={startTime}
+                    onChange={(e) => setStartTime(e.target.value)}
+                  />
                 </td>
                 <td>
-                  <input type="time" />
+                  <input
+                    type="time"
+                    name="endTime"
+                    id="endTime"
+                    value={endTime}
+                    onChange={(e) => setEndTime(e.target.value)}
+                  />
                 </td>
                 <td>
                   <input type="textarea" />
@@ -284,7 +411,10 @@ function Activity() {
           gap: "10px",
         }}
       >
-        <button style={{ backgroundColor: "darkgray", cursor: "pointer" }}>
+        <button
+          style={{ backgroundColor: "darkgray", cursor: "pointer" }}
+          onClick={saveActivity}
+        >
           Save
         </button>
         <button style={{ backgroundColor: "darkgray", cursor: "pointer" }}>
