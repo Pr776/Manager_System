@@ -1,0 +1,147 @@
+/* .history-container {
+  margin: 20px;
+  border: 1px solid #d9d9d9;
+  border-radius: 5px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(222, 219, 217);
+  width: 100%;
+  height: 100%;
+}
+
+.logo-container {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.logo {
+  width: 150px;
+  height: auto;
+  margin-right: 10px;
+  padding-left: 20px;
+}
+
+.button-space {
+  margin-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.input-space {
+  margin-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.date-picker {
+  margin-right: 10px;
+}
+
+.status-dropdown {
+  margin-right: 10px;
+}
+
+.search-input {
+  margin-right: 10px;
+  width: 200px;
+}
+
+.back-button {
+  margin-top: 20px;
+}
+
+.history {
+  position: fixed;
+  top: 152px;
+  margin-top: 32.08px;
+  padding-top: 1px;
+  font-family: monospace;
+  color: darkred;
+  padding-left: 29px;
+} */
+
+.dashboard-logo {
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  width: 300px;
+  height: 136px;
+}
+
+.dashboard-home-button {
+  position: absolute;
+  right: 0%;
+  top: 5%;
+  display: flex;
+  padding-left: 5px;
+}
+
+.dashboard-form {
+  position: absolute;
+  left: 2.75%;
+  top: 15%;
+  display: flex;
+  padding-top: 16px;
+  margin-left: -4px;
+}
+
+.dashboard-form2 {
+  position: absolute;
+  left: 2.75%;
+  top: 22%;
+  display: flex;
+  margin-left: 34px;
+  margin-left: -4px;
+}
+
+.dashboard-form3 {
+  position: absolute;
+  left: 2.75%;
+  top: 29%;
+  display: flex;
+  margin-left: 34px;
+  margin-left: -4px;
+}
+
+.dashboard-form4 {
+  position: absolute;
+  left: 2.75%;
+  margin-left: -5px;
+  top: 36%;
+}
+
+.dashboard-table {
+  position: absolute;
+  left: 2.75%;
+  top: 48%;
+  display: flex;
+}
+
+.dashboard-table1 table th td {
+  border: 1px solid rgb(0, 0, 0);
+  border-collapse: collapse;
+  background-color: rgb(255, 255, 255);
+  padding: 10px;
+  padding-left: 50px;
+}
+
+/* Media query for responsiveness */
+@media screen and (max-width: 768px) {
+  .dashboard-logo,
+  .dashboard-home-button,
+  .dashboard-form,
+  .dashboard-form2,
+  .dashboard-form3,
+  .dashboard-form4,
+  .dashboard-table {
+    position: static;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

@@ -397,10 +397,10 @@ function Activity() {
           </tbody>
         </table>
       </div>
-      <div className={ActivityCSS["activity-approval"]}>
+      {/* <div className={ActivityCSS["activity-approval"]}>
         <label style={{ fontSize: "15px" }}>Approval:&nbsp;</label>
         <input type="text" name="approval" id="approval"></input>
-      </div>
+      </div> */}
       <div
         style={{
           display: "flex",
