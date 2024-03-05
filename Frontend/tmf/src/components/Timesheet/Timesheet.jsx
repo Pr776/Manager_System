@@ -199,6 +199,7 @@ function Timesheet() {
 
         console.log("Timesheet approved successfully");
         alert("Timesheet approved successfully");
+        navigate("/dashboard");
       })
       .catch((error) => {
         console.error("There was a problem approving the timesheet: ", error);
@@ -227,6 +228,7 @@ function Timesheet() {
 
         console.log("Timesheet rejected successfully");
         alert("Timesheet rejected");
+        navigate("/dashboard");
       })
       .catch((error) => {
         console.error("There was a problem approving the timesheet: ", error);
