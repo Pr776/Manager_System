@@ -4,6 +4,7 @@ import { Table } from "antd";
 import { useState } from "react";
 import IconButton from "@material-ui/core/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
+import { Link } from "react-router-dom";
 
 // import DatePicker from "react-datepicker";
 
@@ -222,6 +223,17 @@ function Dashboard() {
       title: "Status",
       dataIndex: "approvalStatus",
       key: "approvalStatus",
+      render: (text, record) => {
+        if (record.approvalStatus === "Pending") {
+          return (
+            <Link to={`/timesheet`}>
+              <button>Pending</button>
+            </Link>
+          );
+        } else {
+          return <span>{text}</span>;
+        }
+      },
     },
   ];
 

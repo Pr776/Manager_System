@@ -27,6 +27,8 @@ body {
   );
   font-family: "Roboto", helvetica, arial, sans-serif;
   font-size: 1.5vw; /* Adjust font size using viewport units */
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 body:before {
