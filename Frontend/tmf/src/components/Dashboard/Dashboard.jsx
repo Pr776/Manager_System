@@ -4,11 +4,12 @@ import { Table } from "antd";
 import { useState } from "react";
 import IconButton from "@material-ui/core/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 // import DatePicker from "react-datepicker";
 
 function Dashboard() {
+  const navigate = useNavigate();
   const [weekStartDate, setWeekStartDate] = useState("");
   const [weekEndDate, setWeekEndDate] = useState("");
   // const [employeeNameFilter, setEmployeeNameFilter] = useState("");
@@ -20,6 +21,7 @@ function Dashboard() {
     approvalStatus: "",
     client: "",
     department: "",
+    logDate: "",
   });
 
   useEffect(() => {
@@ -178,6 +180,12 @@ function Dashboard() {
     setWeekEndDate(formattedEndDate);
   };
 
+  const handlePendingButtonClick = (record) => {
+    navigate("/timesheet", {
+      state: { id: record.employeeId, logDate: record.logDate },
+    });
+  };
+
   const pagination = {
     pageSize: 5,
     showQuickJumper: true,
@@ -226,9 +234,9 @@ function Dashboard() {
       render: (text, record) => {
         if (record.approvalStatus === "Pending") {
           return (
-            <Link to={`/timesheet`}>
-              <button>Pending</button>
-            </Link>
+            <button onClick={() => handlePendingButtonClick(record)}>
+              Pending
+            </button>
           );
         } else {
           return <span>{text}</span>;

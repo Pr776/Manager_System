@@ -1,24 +1,30 @@
 // import React from "react";
 import TimesheetCSS from "./Timesheet.module.css";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Table } from "antd";
-import IconButton from "@material-ui/core/IconButton";
-import SearchIcon from "@mui/icons-material/Search";
+// import IconButton from "@material-ui/core/IconButton";
+// import SearchIcon from "@mui/icons-material/Search";
 
 function Timesheet() {
+  const [timesheetInfoList, setTimesheetInfoList] = useState([]);
   const [employeeName, setEmpName] = useState("");
   const [employeeId, setEmpId] = useState("");
   // const [logDate, setLogDate] = useState("");
   const [weekStartDate, setWeekStartDate] = useState("");
-  const [startTime, setStartTime] = useState(""); // State for start time
-  const [endTime, setEndTime] = useState("");
+  // const [startTime, setStartTime] = useState(""); // State for start time
+  // const [endTime, setEndTime] = useState("");
   const [weekEndDate, setWeekEndDate] = useState("");
   const [logDate, setLogDate] = useState("");
   const [loginTime, setLoginTime] = useState("");
   const [logoutTime, setLogoutTime] = useState("");
   const [approvalStatus, setApprovalStatus] = useState("");
   const [projectData, setProjectData] = useState([]);
+  const navigate = useNavigate();
+
+  const location = useLocation();
+  console.log(location.state);
+  console.log(location.state.id);
 
   // const [tableRows, setTableRows] = useState([{ id: 1 }]); // Initial row
 
@@ -38,7 +44,7 @@ function Timesheet() {
   // };
 
   const pagination = {
-    pageSize: 5,
+    pageSize: 2,
     showQuickJumper: true,
   };
 
@@ -77,10 +83,19 @@ function Timesheet() {
       title: "Remark",
       dataIndex: "remark",
       key: "remark",
+      render: (text, record, index) => (
+        <input
+          type="text"
+          value={timesheetInfoList[index].remark}
+          onChange={(e) => {
+            const newTimesheetInfoList = [...timesheetInfoList];
+            newTimesheetInfoList[index].remark = e.target.value;
+            setTimesheetInfoList(newTimesheetInfoList);
+          }}
+        />
+      ),
     },
   ];
-
-  const navigate = useNavigate();
 
   const handleBack = () => {
     // Use navigate to go back to the previous page
@@ -115,8 +130,13 @@ function Timesheet() {
   // };
 
   const handleSearchid = () => {
-    if (employeeId.trim() !== "") {
-      fetch(`http://localhost:8080/api/validate/${employeeId}/${weekStartDate}`)
+    if (
+      location.state.id.trim() !== "" ||
+      location.state.logDate.trim() !== ""
+    ) {
+      fetch(
+        `http://localhost:8080/api/validate/${location.state.id}/${location.state.logDate}`
+      )
         .then((response) => {
           if (!response.ok) {
             throw new Error("Network response was not ok");
@@ -126,16 +146,22 @@ function Timesheet() {
         .then((data) => {
           setEmpName(data.employeeName); // Set the employee name
           // Assuming data contains all the required information
+          setEmpId(data.employeeId);
           setLogDate(data.logDate);
           setLoginTime(data.loginTime);
           setLogoutTime(data.logoutTime);
           setApprovalStatus(data.approvalStatus);
           setProjectData(data.project); // Assuming data.project is an array of project objects
-          setStartTime(data.project[0].startTime);
-          setEndTime(data.project[0].endTime);
-          console.log(data);
-          console.log(data.project);
-          console.log(data.project[0].startTime);
+          // setStartTime(data.project[0].startTime);
+          // setEndTime(data.project[0].endTime);
+          // console.log(data);
+          // console.log(data.project);
+          // console.log(data.project[0].startTime);
+          const newTimesheetInfoList = data.project.map((project) => ({
+            startTime: project.startTime,
+            remark: "",
+          }));
+          setTimesheetInfoList(newTimesheetInfoList);
         })
 
         .catch((error) => {
@@ -145,6 +171,66 @@ function Timesheet() {
       // Handle empty employee ID
       console.error("Employee ID cannot be empty");
     }
+  };
+
+  useEffect(() => {
+    handleSearchid();
+  }, []);
+
+  const handleApprove = () => {
+    const payload = {
+      employeeId: location.state.id,
+      logDate: location.state.logDate,
+      timesheetInfoList,
+      approvalStatus: "Accepted",
+    };
+
+    fetch("http://localhost:8080/api/validate/timesheet", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+
+        console.log("Timesheet approved successfully");
+        alert("Timesheet approved successfully");
+      })
+      .catch((error) => {
+        console.error("There was a problem approving the timesheet: ", error);
+      });
+  };
+
+  const handleReject = () => {
+    const payload = {
+      employeeId: location.state.id,
+      logDate: location.state.logDate,
+      timesheetInfoList,
+      approvalStatus: "Rejected",
+    };
+
+    fetch("http://localhost:8080/api/validate/timesheet", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+
+        console.log("Timesheet rejected successfully");
+        alert("Timesheet rejected");
+      })
+      .catch((error) => {
+        console.error("There was a problem approving the timesheet: ", error);
+      });
   };
 
   useEffect(() => {
@@ -207,8 +293,8 @@ function Timesheet() {
       const login = new Date(2000, 0, 1, loginHour, loginMinute);
       const logout = new Date(2000, 0, 1, logoutHour, logoutMinute);
 
-      const diff = (logout - login) / (1000 * 60 * 60); // Difference in hours
-      return diff.toFixed(2); // Return hours with two decimal places
+      const diff = (logout - login) / (1000 * 60 * 60);
+      return diff.toFixed(2);
     }
     return "";
   };
@@ -219,17 +305,25 @@ function Timesheet() {
   }));
 
   const calculateActivityHours = () => {
-    if (startTime && endTime) {
-      const [startHour, startMinute] = startTime.split(":").map(Number);
-      const [endHour, endMinute] = endTime.split(":").map(Number);
+    let totalHours = 0;
 
-      const start = new Date(2000, 0, 1, startHour, startMinute);
-      const end = new Date(2000, 0, 1, endHour, endMinute);
+    // Iterate through each project and calculate activity hours
+    projectData.forEach((project) => {
+      if (project.startTime && project.endTime) {
+        const [startHour, startMinute] = project.startTime
+          .split(":")
+          .map(Number);
+        const [endHour, endMinute] = project.endTime.split(":").map(Number);
 
-      const diff = (end - start) / (1000 * 60 * 60);
-      return diff.toFixed(2);
-    }
-    return "";
+        const start = new Date(2000, 0, 1, startHour, startMinute);
+        const end = new Date(2000, 0, 1, endHour, endMinute);
+
+        const diff = (end - start) / (1000 * 60 * 60);
+        totalHours += diff;
+      }
+    });
+
+    return totalHours.toFixed(2);
   };
 
   return (
@@ -262,13 +356,13 @@ function Timesheet() {
           value={employeeId}
           onChange={(e) => setEmpId(e.target.value)}
         />
-        <IconButton
+        {/* <IconButton
           style={{ marginLeft: "10px" }}
           size="small"
           onClick={handleSearchid}
         >
           <SearchIcon />
-        </IconButton>
+        </IconButton> */}
 
         {/* <IconButton
           style={{ marginLeft: "10px" }}
@@ -277,7 +371,7 @@ function Timesheet() {
         >
           <SearchIcon />
         </IconButton> */}
-        <label style={{ fontSize: "15px", marginLeft: "817px" }}>
+        <label style={{ fontSize: "15px", marginLeft: "857px" }}>
           Week Start Date:&nbsp;
         </label>
         <input
@@ -353,7 +447,7 @@ function Timesheet() {
           columns={columns}
           dataSource={modifiedProjectData}
           pagination={pagination}
-          size="small"
+          size="middle"
           style={{ width: "100%" }}
         />
       </div>
@@ -381,12 +475,14 @@ function Timesheet() {
         <button
           style={{ cursor: "pointer" }}
           className={TimesheetCSS["approve-button"]}
+          onClick={handleApprove}
         >
           Approve
         </button>
         <button
           style={{ cursor: "pointer" }}
           className={TimesheetCSS["reject-button"]}
+          onClick={handleReject}
         >
           Reject
         </button>
