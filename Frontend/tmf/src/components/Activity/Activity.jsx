@@ -7,29 +7,37 @@ import SearchIcon from "@mui/icons-material/Search";
 function Activity() {
   const [tableRows, setTableRows] = useState([{ id: 1 }]); // Initial row
   const [weekStartDate, setWeekStartDate] = useState("");
-  const [projectType, setProjectType] = useState("");
-  const [activityType, setActivityType] = useState("");
+  // const [projectType, setProjectType] = useState("");
+  // const [activityType, setActivityType] = useState("");
   const [weekEndDate, setWeekEndDate] = useState("");
-  const [startTime, setStartTime] = useState("");
-  const [endTime, setEndTime] = useState("");
+  // const [startTime, setStartTime] = useState("");
+  // const [endTime, setEndTime] = useState("");
   const [logDate, setLogDate] = useState("");
-  const [selectedProject, setSelectedProject] = useState("");
+  // const [selectedProject, setSelectedProject] = useState("");
   // const [data, setData] = useState([]);
   const [projectOptions, setProjectOptions] = useState([]);
   const [employeeName, setEmpName] = useState("");
   const [employeeId, setEmpId] = useState("");
 
+  const [rowData, setRowData] = useState([
+    {
+      selectedProject: "",
+      projectType: "",
+      activityType: "",
+      startTime: "",
+      endTime: "",
+    },
+  ]);
+
   const payload = {
     employeeId: employeeId,
-    allocateData: [
-      {
-        projectName: selectedProject,
-        projectType: projectType,
-        activityType: activityType,
-        activityStartTime: startTime,
-        activityEndTime: endTime,
-      },
-    ],
+    allocateData: tableRows.map((row, index) => ({
+      projectName: rowData[index].selectedProject,
+      projectType: rowData[index].projectType,
+      activityType: rowData[index].activityType,
+      activityStartTime: rowData[index].startTime,
+      activityEndTime: rowData[index].endTime,
+    })),
     activityAllocationDate: logDate,
   };
 
@@ -54,6 +62,7 @@ function Activity() {
       .catch((error) => {
         console.error("There was a problem fetching the data: ", error);
       });
+    alert("Data Saved Successfully");
   }
   const handleSearch = () => {
     if (employeeName.trim() !== "") {
@@ -155,26 +164,80 @@ function Activity() {
     setWeekEndDate(formattedEndDate);
   };
 
+  // const addRow = () => {
+  //   if (tableRows.length < 4) {
+  //     const newRow = { id: tableRows.length + 1 };
+  //     setTableRows([...tableRows, newRow]);
+  //   }
+  // };
+
+  // const deleteRow = (id) => {
+  //   if (id !== 1) {
+  //     // Check if it's not the first row
+  //     const updatedRows = tableRows.filter((row) => row.id !== id);
+  //     setTableRows(updatedRows);
+  //   }
+  // };
+
   const addRow = () => {
     if (tableRows.length < 4) {
       const newRow = { id: tableRows.length + 1 };
       setTableRows([...tableRows, newRow]);
+      // Add new empty row data
+      setRowData([
+        ...rowData,
+        {
+          selectedProject: "",
+          projectType: "",
+          activityType: "",
+          startTime: "",
+          endTime: "",
+        },
+      ]);
     }
   };
 
+  // Function to delete a row
   const deleteRow = (id) => {
     if (id !== 1) {
       // Check if it's not the first row
       const updatedRows = tableRows.filter((row) => row.id !== id);
       setTableRows(updatedRows);
+      // Remove corresponding row data
+      setRowData(rowData.filter((row, index) => tableRows[index].id !== id));
     }
   };
 
+  // Function to handle changes in dropdowns for each row
+  const handleRowChange = (index, key, value) => {
+    const updatedData = [...rowData];
+    updatedData[index][key] = value;
+    setRowData(updatedData);
+  };
   const navigate = useNavigate();
 
   const handleBack = () => {
     // Use navigate to go back to the previous page
     navigate(-1);
+  };
+
+  const resetPage = () => {
+    // Reset all the state variables to their initial values
+    setTableRows([{ id: 1 }]);
+    setWeekStartDate("");
+    setWeekEndDate("");
+    setLogDate("");
+    setEmpName("");
+    setEmpId("");
+    setRowData([
+      {
+        selectedProject: "",
+        projectType: "",
+        activityType: "",
+        startTime: "",
+        endTime: "",
+      },
+    ]);
   };
 
   console.log("Payload:", payload);
@@ -317,11 +380,12 @@ function Activity() {
           <tbody>
             {tableRows.map((row, index) => (
               <tr key={row.id}>
-                {/* Replace below placeholders with your actual data */}
                 <td>
                   <select
-                    value={selectedProject}
-                    onChange={(e) => setSelectedProject(e.target.value)}
+                    value={rowData[index].selectedProject}
+                    onChange={(e) =>
+                      handleRowChange(index, "selectedProject", e.target.value)
+                    }
                   >
                     <option>Select Here</option>
                     {projectOptions.map((projectName, index) => (
@@ -331,29 +395,27 @@ function Activity() {
                     ))}
                   </select>
                 </td>
-
-                {/* Dropdown for Project Type */}
                 <td>
-                  {/* Dropdown for Project Type */}
                   <select
-                    value={projectType}
-                    onChange={(e) => setProjectType(e.target.value)}
+                    value={rowData[index].projectType}
+                    onChange={(e) =>
+                      handleRowChange(index, "projectType", e.target.value)
+                    }
                   >
                     <option>Select Here</option>
-
                     <option value="Developement">Developement</option>
                     <option value="Support">Support</option>
                     <option value="Testing">Testing</option>
                   </select>
                 </td>
                 <td>
-                  {/* Dropdown for Activity Type */}
                   <select
-                    value={activityType}
-                    onChange={(e) => setActivityType(e.target.value)}
+                    value={rowData[index].activityType}
+                    onChange={(e) =>
+                      handleRowChange(index, "activityType", e.target.value)
+                    }
                   >
                     <option>Select Here</option>
-
                     <option value="Fluid">Fluid</option>
                     <option value="Fiori">Fiori</option>
                   </select>
@@ -361,19 +423,19 @@ function Activity() {
                 <td>
                   <input
                     type="time"
-                    name="startTime"
-                    id="startTime"
-                    value={startTime}
-                    onChange={(e) => setStartTime(e.target.value)}
+                    value={rowData[index].startTime}
+                    onChange={(e) =>
+                      handleRowChange(index, "startTime", e.target.value)
+                    }
                   />
                 </td>
                 <td>
                   <input
                     type="time"
-                    name="endTime"
-                    id="endTime"
-                    value={endTime}
-                    onChange={(e) => setEndTime(e.target.value)}
+                    value={rowData[index].endTime}
+                    onChange={(e) =>
+                      handleRowChange(index, "endTime", e.target.value)
+                    }
                   />
                 </td>
                 <td>
@@ -383,12 +445,10 @@ function Activity() {
                   <input type="textarea" />
                 </td>
                 <td>
-                  {/* Addition button */}
                   {tableRows.length < 4 || index === 0 ? (
                     <button onClick={addRow}>Add</button>
                   ) : null}
-                  {/* Subtraction button */}
-                  {index !== 0 && ( // Render delete button conditionally
+                  {index !== 0 && (
                     <button onClick={() => deleteRow(row.id)}>Delete</button>
                   )}
                 </td>
@@ -412,17 +472,23 @@ function Activity() {
         }}
       >
         <button
-          style={{ backgroundColor: "darkgray", cursor: "pointer" }}
+          style={{ cursor: "pointer" }}
           onClick={saveActivity}
+          className={ActivityCSS["save-button"]}
         >
           Save
         </button>
-        <button style={{ backgroundColor: "darkgray", cursor: "pointer" }}>
+        <button
+          style={{ cursor: "pointer" }}
+          onClick={resetPage}
+          className={ActivityCSS["cancel-button"]}
+        >
           Cancel
         </button>
         <button
-          style={{ backgroundColor: "cyan", cursor: "pointer" }}
+          style={{ cursor: "pointer" }}
           onClick={handleBack}
+          className={ActivityCSS["back-button"]}
         >
           Back
         </button>

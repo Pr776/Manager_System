@@ -103,3 +103,15 @@ td {
   }
 }
 /* END: Responsive CSS */
+
+.approve-button:hover {
+  background-color: lightgreen;
+}
+
+.reject-button:hover {
+  background-color: lightcoral;
+}
+
+.back-button:hover {
+  background-color: cyan;
+}

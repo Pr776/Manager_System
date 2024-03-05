@@ -73,3 +73,15 @@ td {
   right: 0%;
   bottom: 10%;
 }
+
+.save-button:hover {
+  background-color: lightgreen;
+}
+
+.cancel-button:hover {
+  background-color: lightcoral;
+}
+
+.back-button:hover {
+  background-color: cyan;
+}

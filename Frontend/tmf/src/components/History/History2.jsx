@@ -457,7 +457,7 @@ function History2() {
   }, []);
 
   const fetchData = () => {
-    fetch("http://localhost:8080/api/dashboard")
+    fetch("http://localhost:8080/api/history")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -480,7 +480,7 @@ function History2() {
 
   console.log(filters.employeeName);
   function handlenameSearch() {
-    fetch(`http://localhost:8080/api/dashboard/name/${filters.employeeName}`, {
+    fetch(`http://localhost:8080/api/history/name/${filters.employeeName}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -503,7 +503,7 @@ function History2() {
   }
 
   function handleidSearch() {
-    fetch(`http://localhost:8080/api/dashboard/id/${filters.employeeId}`, {
+    fetch(`http://localhost:8080/api/history/id/${filters.employeeId}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -525,28 +525,28 @@ function History2() {
       });
   }
 
-  function handleclientSearch() {
-    fetch(`http://localhost:8080/api/dashboard/client/${filters.client}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log("Data fetched from API:", data);
-        setData(data);
-      })
-      .catch((error) => {
-        console.error("There was a problem fetching the data: ", error);
-      });
-  }
+  // function handleclientSearch() {
+  //   fetch(`http://localhost:8080/api/dashboard/client/${filters.client}`, {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify(payload),
+  //   })
+  //     .then((response) => {
+  //       if (!response.ok) {
+  //         throw new Error("Network response was not ok");
+  //       }
+  //       return response.json();
+  //     })
+  //     .then((data) => {
+  //       console.log("Data fetched from API:", data);
+  //       setData(data);
+  //     })
+  //     .catch((error) => {
+  //       console.error("There was a problem fetching the data: ", error);
+  //     });
+  // }
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
@@ -584,21 +584,21 @@ function History2() {
       dataIndex: "employeeName",
       key: "employeeName",
     },
-    {
-      title: "Project",
-      dataIndex: "projectName",
-      key: "projectName",
-    },
-    {
-      title: "Department",
-      dataIndex: "department",
-      key: "department",
-    },
-    {
-      title: "Client",
-      dataIndex: "client",
-      key: "client",
-    },
+    // {
+    //   title: "Project",
+    //   dataIndex: "projectName",
+    //   key: "projectName",
+    // },
+    // {
+    //   title: "Department",
+    //   dataIndex: "department",
+    //   key: "department",
+    // },
+    // {
+    //   title: "Client",
+    //   dataIndex: "client",
+    //   key: "client",
+    // },
     // {
     //   title: "Activity Hours",
     //   dataIndex: "activityHours",
@@ -608,6 +608,16 @@ function History2() {
       title: "Status",
       dataIndex: "approvalStatus",
       key: "approvalStatus",
+    },
+    {
+      title: "Modified By",
+      dataIndex: "modifiedBy",
+      key: "modifiedBy",
+    },
+    {
+      title: "Modified Date",
+      dataIndex: "modifiedDate",
+      key: "modifiedDate",
     },
   ];
 
@@ -807,7 +817,7 @@ function History2() {
           <option value="Rejected">Rejected</option>
           <option value="Pending">Pending</option>
         </select>
-        <label
+        {/* <label
           style={{ fontSize: "15px", marginLeft: "800px", paddingLeft: "70px" }}
         >
           Search by Department:&nbsp;
@@ -820,9 +830,9 @@ function History2() {
           <option value="">Select Type</option>
           <option value="IT">IT</option>
           <option value="NON-IT">NON-IT</option>
-        </select>
+        </select> */}
       </div>
-      <div className={DashboardCSS["dashboard-form4"]}>
+      {/* <div className={DashboardCSS["dashboard-form4"]}>
         <label style={{ fontSize: "15px" }}>Search by client:&nbsp;</label>
         <input
           type="text"
@@ -838,7 +848,7 @@ function History2() {
         >
           <SearchIcon />
         </IconButton>
-      </div>
+      </div> */}
       <div
         className={DashboardCSS["dashboard-table"]}
         style={{ fontSize: "25px" }}

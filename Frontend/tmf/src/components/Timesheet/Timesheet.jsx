@@ -1,31 +1,235 @@
-import React from "react";
+// import React from "react";
 import TimesheetCSS from "./Timesheet.module.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Table } from "antd";
+import IconButton from "@material-ui/core/IconButton";
+import SearchIcon from "@mui/icons-material/Search";
 
 function Timesheet() {
-  const [tableRows, setTableRows] = useState([{ id: 1 }]); // Initial row
+  const [employeeName, setEmpName] = useState("");
+  const [employeeId, setEmpId] = useState("");
+  // const [logDate, setLogDate] = useState("");
+  const [weekStartDate, setWeekStartDate] = useState("");
+  const [startTime, setStartTime] = useState(""); // State for start time
+  const [endTime, setEndTime] = useState("");
+  const [weekEndDate, setWeekEndDate] = useState("");
+  const [logDate, setLogDate] = useState("");
+  const [loginTime, setLoginTime] = useState("");
+  const [logoutTime, setLogoutTime] = useState("");
+  const [approvalStatus, setApprovalStatus] = useState("");
+  const [projectData, setProjectData] = useState([]);
 
-  const addRow = () => {
-    if (tableRows.length < 4) {
-      const newRow = { id: tableRows.length + 1 };
-      setTableRows([...tableRows, newRow]);
-    }
+  // const [tableRows, setTableRows] = useState([{ id: 1 }]); // Initial row
+
+  // const addRow = () => {
+  //   if (tableRows.length < 4) {
+  //     const newRow = { id: tableRows.length + 1 };
+  //     setTableRows([...tableRows, newRow]);
+  //   }
+  // };
+
+  // const deleteRow = (id) => {
+  //   if (id !== 1) {
+  //     // Check if it's not the first row
+  //     const updatedRows = tableRows.filter((row) => row.id !== id);
+  //     setTableRows(updatedRows);
+  //   }
+  // };
+
+  const pagination = {
+    pageSize: 5,
+    showQuickJumper: true,
   };
 
-  const deleteRow = (id) => {
-    if (id !== 1) {
-      // Check if it's not the first row
-      const updatedRows = tableRows.filter((row) => row.id !== id);
-      setTableRows(updatedRows);
-    }
-  };
+  const columns = [
+    {
+      title: "Project",
+      dataIndex: "projectName",
+      key: "projectName",
+    },
+    {
+      title: "Project Type",
+      dataIndex: "projectType",
+      key: "projectType",
+    },
+    {
+      title: "Activity",
+      dataIndex: "activityType",
+      key: "activityType",
+    },
+    {
+      title: "Start Time",
+      dataIndex: "startTime",
+      key: "startTime",
+    },
+    {
+      title: "End Time",
+      dataIndex: "endTime",
+      key: "endTime",
+    },
+    {
+      title: "Description",
+      dataIndex: "description",
+      key: "description",
+    },
+    {
+      title: "Remark",
+      dataIndex: "remark",
+      key: "remark",
+    },
+  ];
 
   const navigate = useNavigate();
 
   const handleBack = () => {
     // Use navigate to go back to the previous page
     navigate(-1);
+  };
+
+  const formatDate = (date) => {
+    return date.toISOString().split("T")[0];
+  };
+
+  // const handleSearch = () => {
+  //   if (employeeName.trim() !== "") {
+  //     fetch(
+  //       `http://localhost:8080/api/activityAllocations/name/${employeeName}`
+  //     )
+  //       .then((response) => {
+  //         if (!response.ok) {
+  //           throw new Error("Network response was not ok");
+  //         }
+  //         return response.json();
+  //       })
+  //       .then((data) => {
+  //         setEmpId(data.employeeId); // Set the employee ID
+  //       })
+  //       .catch((error) => {
+  //         console.error("There was a problem fetching the data: ", error);
+  //       });
+  //   } else {
+  //     // Handle empty employee name
+  //     console.error("Employee name cannot be empty");
+  //   }
+  // };
+
+  const handleSearchid = () => {
+    if (employeeId.trim() !== "") {
+      fetch(`http://localhost:8080/api/validate/${employeeId}/${weekStartDate}`)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          setEmpName(data.employeeName); // Set the employee name
+          // Assuming data contains all the required information
+          setLogDate(data.logDate);
+          setLoginTime(data.loginTime);
+          setLogoutTime(data.logoutTime);
+          setApprovalStatus(data.approvalStatus);
+          setProjectData(data.project); // Assuming data.project is an array of project objects
+          setStartTime(data.project[0].startTime);
+          setEndTime(data.project[0].endTime);
+          console.log(data);
+          console.log(data.project);
+          console.log(data.project[0].startTime);
+        })
+
+        .catch((error) => {
+          console.error("There was a problem fetching the data: ", error);
+        });
+    } else {
+      // Handle empty employee ID
+      console.error("Employee ID cannot be empty");
+    }
+  };
+
+  useEffect(() => {
+    // Calculate current week's start and end dates
+    const currentDate = new Date();
+    // setLogDate(formatDate(currentDate));
+
+    const currentDayOfWeek = currentDate.getDay(); // 0 (Sunday) to 6 (Saturday)
+    const diff =
+      currentDate.getDate() -
+      currentDayOfWeek +
+      (currentDayOfWeek === 0 ? -6 : 1); // Adjust when current day is Sunday
+    const monday = new Date(currentDate.setDate(diff));
+    const friday = new Date(monday);
+    friday.setDate(monday.getDate() + 4);
+
+    // Set the start and end dates in the state
+    setWeekStartDate(formatDate(monday));
+    setWeekEndDate(formatDate(friday));
+
+    // fetchData();// Fetch data after setting the dates
+  }, []);
+
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
+
+  // const fetchData = () => {
+  //   fetch("http://localhost:8080/api/activityAllocations/projects/SK")
+  //     .then((response) => {
+  //       if (!response.ok) {
+  //         throw new Error("Network response was not ok");
+  //       }
+  //       return response.json();
+  //     })
+  //     .then((data) => {
+  //       console.log("Data fetched from API:", data);
+  //       // setProjectOptions(data); // Set project options directly from API response
+  //     })
+  //     .catch((error) => {
+  //       console.error("There was a problem fetching the data: ", error);
+  //     });
+  // };
+
+  const handleWeekStartDateChange = (date) => {
+    setWeekStartDate(date);
+
+    // Calculate week end date (4 days later)
+    const endDate = new Date(date);
+    endDate.setDate(endDate.getDate() + 4);
+    const formattedEndDate = endDate.toISOString().split("T")[0];
+    setWeekEndDate(formattedEndDate);
+  };
+
+  const calculateGrossHours = () => {
+    if (loginTime && logoutTime) {
+      const [loginHour, loginMinute] = loginTime.split(":").map(Number);
+      const [logoutHour, logoutMinute] = logoutTime.split(":").map(Number);
+
+      const login = new Date(2000, 0, 1, loginHour, loginMinute);
+      const logout = new Date(2000, 0, 1, logoutHour, logoutMinute);
+
+      const diff = (logout - login) / (1000 * 60 * 60); // Difference in hours
+      return diff.toFixed(2); // Return hours with two decimal places
+    }
+    return "";
+  };
+
+  const modifiedProjectData = projectData.map((item, index) => ({
+    ...item,
+    key: index.toString(),
+  }));
+
+  const calculateActivityHours = () => {
+    if (startTime && endTime) {
+      const [startHour, startMinute] = startTime.split(":").map(Number);
+      const [endHour, endMinute] = endTime.split(":").map(Number);
+
+      const start = new Date(2000, 0, 1, startHour, startMinute);
+      const end = new Date(2000, 0, 1, endHour, endMinute);
+
+      const diff = (end - start) / (1000 * 60 * 60);
+      return diff.toFixed(2);
+    }
+    return "";
   };
 
   return (
@@ -49,25 +253,51 @@ function Timesheet() {
         </h3>
       </div>
       <div className={TimesheetCSS["timesheet-form"]}>
-        <label style={{ fontSize: "15px" }}>Employee Name:&nbsp;</label>
-        <input
-          type="text"
-          placeholder="Enter Employee Name"
-          name="empid"
-          id="empid"
-        />
-        <label style={{ fontSize: "15px", marginLeft: "800px" }}>
-          Week Start Date:&nbsp;
-        </label>
-        <input type="date" name="weekstartdate" id="weekstartdate" />
-      </div>
-      <div className={TimesheetCSS["timesheet-form2"]}>
         <label style={{ fontSize: "15px" }}>Employee Id:&nbsp;</label>
         <input
           type="text"
           placeholder="Enter Employee Id"
-          name="empname"
-          id="empname"
+          name="employeeId"
+          id="employeeId"
+          value={employeeId}
+          onChange={(e) => setEmpId(e.target.value)}
+        />
+        <IconButton
+          style={{ marginLeft: "10px" }}
+          size="small"
+          onClick={handleSearchid}
+        >
+          <SearchIcon />
+        </IconButton>
+
+        {/* <IconButton
+          style={{ marginLeft: "10px" }}
+          size="small"
+          onClick={handleSearch}
+        >
+          <SearchIcon />
+        </IconButton> */}
+        <label style={{ fontSize: "15px", marginLeft: "817px" }}>
+          Week Start Date:&nbsp;
+        </label>
+        <input
+          type="date"
+          name="weekstartdate"
+          id="weekstartdate"
+          value={weekStartDate}
+          onChange={(e) => handleWeekStartDateChange(e.target.value)}
+        />
+      </div>
+      <div className={TimesheetCSS["timesheet-form2"]}>
+        <label style={{ fontSize: "15px" }}>Employee Name:&nbsp;</label>
+        <input
+          type="text"
+          placeholder="Enter Employee Name"
+          name="employeeName"
+          id="employeeName"
+          readOnly
+          value={employeeName}
+          onChange={(e) => setEmpName(e.target.value)}
         />
         <label
           style={{ fontSize: "15px", marginLeft: "800px", paddingLeft: "29px" }}
@@ -78,11 +308,14 @@ function Timesheet() {
           type="date"
           name="weekenddate"
           id="weekenddate"
+          onChange={(e) => setWeekEndDate(e.target.value)}
+          value={weekEndDate}
+          readOnly
           style={{ paddingLeft: "4px", marginLeft: "2px" }}
         />
       </div>
       <div className={TimesheetCSS["timesheet-form3"]}>
-        <p>Role: Developer</p>
+        {/* <p>Role: Developer</p> */}
         <p>Reporting Manager: SK</p>
       </div>
       <div
@@ -103,11 +336,11 @@ function Timesheet() {
           </thead>
           <tbody>
             <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
+              <td>{logDate}</td>
+              <td>{loginTime}</td>
+              <td>{logoutTime}</td>
+              <td>{calculateGrossHours()}</td>
+              <td>{calculateActivityHours()}</td>
             </tr>
           </tbody>
         </table>
@@ -116,61 +349,24 @@ function Timesheet() {
         className={TimesheetCSS["timesheet-table2"]}
         style={{ fontSize: "15px" }}
       >
-        <table>
-          <thead>
-            <tr>
-              <th>Project</th>
-              <th>Project Type</th>
-              <th>Activity</th>
-              <th>Start Time</th>
-              <th>End Time</th>
-              <th>Description</th>
-              <th>Remark</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-          </tbody>
-        </table>
+        <Table
+          columns={columns}
+          dataSource={modifiedProjectData}
+          pagination={pagination}
+          size="small"
+          style={{ width: "100%" }}
+        />
       </div>
       <div className={TimesheetCSS["timesheet-approval"]}>
         <label style={{ fontSize: "15px" }}>Approval:&nbsp;</label>
-        <input type="text" name="approval" id="approval"></input>
+        <input
+          type="text"
+          name="approval"
+          id="approval"
+          style={{ marginRight: "20px" }}
+          value={approvalStatus}
+          onChange={(e) => setApprovalStatus(e.target.value)}
+        ></input>
       </div>
       <div
         style={{
@@ -182,15 +378,22 @@ function Timesheet() {
           gap: "10px",
         }}
       >
-        <button style={{ backgroundColor: "darkgray", cursor: "pointer" }}>
+        <button
+          style={{ cursor: "pointer" }}
+          className={TimesheetCSS["approve-button"]}
+        >
           Approve
         </button>
-        <button style={{ backgroundColor: "darkgray", cursor: "pointer" }}>
+        <button
+          style={{ cursor: "pointer" }}
+          className={TimesheetCSS["reject-button"]}
+        >
           Reject
         </button>
         <button
-          style={{ backgroundColor: "cyan", cursor: "pointer" }}
+          style={{ cursor: "pointer" }}
           onClick={handleBack}
+          className={TimesheetCSS["back-button"]}
         >
           Back
         </button>
