@@ -5,7 +5,6 @@ import { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { FaTimes } from "react-icons/fa";
-// import PropTypes from "prop-types";
 import "./Home.css";
 
 import {
@@ -20,7 +19,7 @@ const DashboardContainer = styled.div`
 `;
 
 const SidebarContainer = styled.div`
-  background-color: lightgrey;
+  background-color: darkgray;
   width: 250px;
   min-height: 100vh; /* Make sure the sidebar takes at least the full height */
   display: flex;
@@ -52,6 +51,7 @@ const MenuContainer = styled.ul`
   padding: 0;
   width: 100%;
   font-family: monospace;
+  font-weight: bold;
 `;
 
 const MenuItem = styled.li`
@@ -100,7 +100,7 @@ const StatusContainer = styled.div`
   position: fixed;
   top: 0;
   left: 250px;
-  background-color: lightgrey;
+  background-color: darkgray;
   padding: 10px;
   z-index: 1000;
   box-sizing: border-box;
@@ -143,7 +143,7 @@ const StatusCount = styled.span`
 const TotalStatusHeader = styled.h1`
   font-size: 16px;
   font-weight: bold;
-  color: #333;
+  color: black;
   margin-top: 15px;
   padding-left: 150px;
 `;
@@ -277,7 +277,7 @@ const Home = () => {
     );
   }
 
-  const COLORS = ["#4caf50", "#f44336", "#ff9800"];
+  const COLORS = ["limegreen", "red", "orange"];
 
   const handleSignOut = () => {
     // Handle sign out logic here
@@ -335,19 +335,25 @@ const Home = () => {
             <MenuItem>
               <MenuLink href="/report">
                 <MenuIcon className="fas fa-file-alt" />
-                Report
+                Download Timesheet Report
               </MenuLink>
             </MenuItem>
             <MenuItem>
               <MenuLink href="/history">
                 <MenuIcon className="fas fa-history" />
-                History
+                Timesheet History
               </MenuLink>
             </MenuItem>
             <MenuItem>
               <MenuLink href="/timesheet">
                 <MenuIcon className="fas fa-file-invoice" />
-                Timesheet
+                Employee Timesheet
+              </MenuLink>
+            </MenuItem>
+            <MenuItem>
+              <MenuLink href="/mytimesheet">
+                <MenuIcon className="fas fa-file-invoice" />
+                My Timesheet
               </MenuLink>
             </MenuItem>
           </MenuContainer>
@@ -357,7 +363,7 @@ const Home = () => {
         </SidebarContainer>
         <StatusContainer>
           <StatusBox>
-            <FaCheckCircle color="#4caf50" size={32} />
+            <FaCheckCircle color="green" size={32} />
             <StatusTitle>Approved</StatusTitle>
             <StatusCount>{approvedCount}</StatusCount>
           </StatusBox>
@@ -415,7 +421,7 @@ const Home = () => {
             </PieChart>
             <div style={{ textAlign: "center", marginTop: "10px" }}>
               <span style={{ fontSize: "18px", fontWeight: "bold" }}>
-                Approved: {approvedCount}
+                {/* Approved: {approvedCount} */}
               </span>
               <span
                 style={{
@@ -424,10 +430,10 @@ const Home = () => {
                   marginRight: "10px",
                 }}
               >
-                |
+                {/* | */}
               </span>
               <span style={{ fontSize: "18px", fontWeight: "bold" }}>
-                Rejected: {rejectedCount}
+                {/* Rejected: {rejectedCount} */}
               </span>
               <span
                 style={{
@@ -436,14 +442,14 @@ const Home = () => {
                   marginRight: "10px",
                 }}
               >
-                |
+                {/* | */}
               </span>
               <span style={{ fontSize: "18px", fontWeight: "bold" }}>
-                Pending: {pendingCount}
+                {/* Pending: {pendingCount} */}
               </span>
             </div>
             <TotalStatusHeader>
-              Total Status:{approvedCount + rejectedCount + pendingCount}
+              {/* Total Status:{approvedCount + rejectedCount + pendingCount} */}
             </TotalStatusHeader>
           </div>
         </DashboardContent>
